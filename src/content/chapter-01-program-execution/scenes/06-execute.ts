@@ -79,7 +79,7 @@ export const PROGRAM: Instr[] = [
   {
     mn: 'HALT', kind: 'halt', usesAlu: false,
     text: 'HALT',
-    plain: { en: 'Stop — the program is finished.', vi: 'Dừng — chương trình đã xong.' },
+    plain: { en: 'Stop — a special instruction that ends this program. The CPU can then continue processing other work.', vi: 'Dừng — lệnh đặc biệt kết thúc chương trình này. CPU có thể tiếp tục xử lý các công việc khác.' },
   },
 ]
 

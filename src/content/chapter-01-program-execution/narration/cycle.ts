@@ -66,8 +66,8 @@ export function stageLine(ins: Instr, stage: Stage, lang: Lang): string {
 
   const lines: Record<Stage, LocalizedText> = {
     fetch: {
-      en: 'Fetch \u2014 the brain gets the next instruction from RAM.',
-      vi: 'Lấy \u2014 não đọc lệnh tiếp theo từ RAM.',
+      en: 'Fetch — the Program Counter identifies the next instruction; the CPU reads it from RAM.',
+      vi: 'Lấy — Bộ đếm lệnh xác định lệnh tiếp theo; CPU đọc nó từ RAM.',
     },
     decode: {
       en: 'Decode \u2014 the control unit works out what to do.',
@@ -85,8 +85,8 @@ export function stageLine(ins: Instr, stage: Stage, lang: Lang): string {
       vi: 'Ghi lại \u2014 kết quả được lưu vào hộp, hoặc vào RAM khi cần.',
     },
     pcinc: {
-      en: 'PC \u2192 next \u2014 the counter moves on to the next instruction.',
-      vi: 'PC \u2192 lệnh kế \u2014 bộ đếm chuyển sang lệnh tiếp theo.',
+      en: 'PC \u2014 the Program Counter determines which instruction is fetched next.',
+      vi: 'PC \u2014 Bộ đếm lệnh xác định lệnh nào sẽ được lấy tiếp theo.',
     },
   }
   return lines[stage][lang]
