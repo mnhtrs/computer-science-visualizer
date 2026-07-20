@@ -6,7 +6,7 @@
 
 **Status:** Frozen
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 
 **Dependencies:**
 - 00_VISION.md
@@ -165,7 +165,54 @@ Future educational media shall remain subject to these laws.
 
 ---
 
-# 13. Constitutional Authority
+# 13. Knowledge Reveal Law
+
+A technical term or concept may be introduced only after the learner has observed a phenomenon that makes that term necessary.
+
+The need for a concept must be established before the concept is named.
+
+Terminology shall never precede the experience that motivates it.
+
+A learner must never encounter a name before encountering the reality it describes.
+
+---
+
+# 14. Narrative-Driven Explanation
+
+Educational explanation must emerge from the current state of the Journey.
+
+A component shall never be described in isolation, independent of the narrative context in which it is encountered.
+
+Explanation shall be triggered by observable events, not by the presence of a component on screen.
+
+The following narration patterns are constitutionally prohibited:
+
+- Listing a component's attributes, functions, or properties as a standalone description.
+- Presenting information as a checklist independent of the evolving system state.
+- Explaining what a component "is" or "does" before the learner has observed it acting within the Journey.
+
+Understanding must arise through the unfolding of the Journey, not through documentation inserted into it.
+
+---
+
+# 15. Learning Momentum
+
+Every Journey must open with exactly one central question that remains unresolved until the final scene.
+
+Every scene must measurably advance the resolution of that central question.
+
+A scene that does not advance the Journey's central question is constitutionally prohibited, regardless of its technical accuracy.
+
+The learner must always be aware of two things simultaneously:
+
+- where they currently are in the Journey,
+- how far they remain from the answer to the central question.
+
+Scenes that function as independent explanatory units, disconnected from the Journey's central question, are constitutionally prohibited.
+
+---
+
+# 16. Constitutional Authority
 
 This document governs every explanation, dialogue, interaction, narration, analogy, instructional sequence, and educational script produced within Cesvi.
 

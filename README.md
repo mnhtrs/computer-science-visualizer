@@ -5,10 +5,22 @@
 </div>
 
 <br/>
+**Cesvi** is an interactive, story-driven educational platform designed to make computer architecture, networks, and software engineering concepts intuitive and engaging. Our philosophy: *Animation first, explanation second, terminology last*. Think of it as a blend of 3Blue1Brown, Kurzgesagt, and Brilliant — but fully interactive and readable by someone who has never written a line of code.
 
-**Cesvi** is an interactive, story-driven educational platform designed to make computer architecture and execution pipelines intuitive and engaging. Animation first, explanation second, terminology last. Think 3Blue1Brown × Kurzgesagt × Brilliant — but clickable, and readable by someone who has never heard of a CPU.
+> Cesvi is **not** a static documentation site. It is a collection of guided, interactive journeys through real computational systems.
 
-> Cesvi is **not** a calculator demo. It is a guided story about a Task running
-> through a real computer.
+## 🚀 The Journeys
 
-* Chapter 1 — *How does a computer run my program?*
+Cesvi breaks down complex computer science topics into digestible, visual stories. From the execution of a simple program inside the CPU to the intricate journey of a Web Request across the internet, each chapter focuses on revealing the invisible mechanics of technology.
+
+## 🛠️ Getting Started
+
+To run the Cesvi platform locally and explore the interactive chapters:
+
+```bash
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```

@@ -6,7 +6,7 @@
 
 **Status:** Frozen
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 
 **Dependencies:**
 - 00_VISION.md
@@ -168,7 +168,41 @@ Visual language shall never sacrifice truth for beauty, novelty, familiarity, or
 
 ---
 
-# 13. Constitutional Authority
+# 13. Protagonist Continuity
+
+Every Journey must designate exactly one persistent visual protagonist.
+
+This protagonist represents the learner's point of observation as it travels through the system.
+
+The protagonist must remain continuously traceable across every scene and every scene transition.
+
+At every moment, the learner must be able to determine:
+
+- where the protagonist currently is,
+- where it arrived from,
+- where it proceeds next.
+
+No scene may begin without establishing how the protagonist arrived.
+
+No scene may end without establishing where the protagonist proceeds.
+
+A scene transition in which the protagonist's continuous movement cannot be traced is constitutionally prohibited.
+
+---
+
+# 14. Transition Causality
+
+Every scene transition must be caused by an observable state change or causal event established within the preceding scene.
+
+A transition may not occur because narration declares it.
+
+Narration may describe or name a transition only after its visible cause has been established.
+
+A scene transition whose cause is invisible or unobserved is constitutionally prohibited.
+
+---
+
+# 15. Constitutional Authority
 
 This document governs every visual representation produced within Cesvi.
 
