@@ -6,7 +6,7 @@
 
 **Status:** Frozen
 
-**Version:** 1.1.0
+**Version:** 1.3.0
 
 **Dependencies:**
 - 00_VISION.md
@@ -129,13 +129,16 @@ The origin of every abstraction must remain traceable.
 
 ---
 
-# 10. Cross-Domain Consistency
+# 10. Cross-Domain Consistency & Canonical Style
 
 Equivalent structures shall be represented consistently throughout the entire Cesvi ecosystem.
 
 A visual language established for one educational domain shall not arbitrarily change when another domain is introduced.
 
-Consistency strengthens transferable mental models.
+**Chapter 1 serves as the absolute canonical benchmark for all visual aesthetics.** 
+Every subsequent Chapter must faithfully replicate the visual style, animation physics, scene transitions, and specific particle effects (e.g., light sparks) established in Chapter 1. 
+
+Consistency strengthens transferable mental models. Deviation from the Chapter 1 benchmark for artistic reasons is constitutionally forbidden.
 
 ---
 
@@ -202,7 +205,27 @@ A scene transition whose cause is invisible or unobserved is constitutionally pr
 
 ---
 
-# 15. Constitutional Authority
+# 15. Time-Travel Determinism
+
+Every Journey must allow the learner to safely navigate backward and forward through the timeline (Timeline Beats).
+
+The visual state, data representation, and protagonist position at any given Beat must be completely deterministic and behave as a pure function of that Beat.
+
+Animation sequences must not rely on fire-and-forget logic that breaks when a user skips, pauses, or reverses the timeline. Reversing a transition must perfectly restore the previous visual and structural state.
+
+---
+
+# 16. UI Attentional Priority
+
+Information not directly participating in the current action—such as HUD dashboards, data tables, or console logs—must yield visual priority to the active mechanism.
+
+When the protagonist (e.g., the Spark) is actively moving or triggering a state change, auxiliary UI elements must remain visually dimmed or passive. 
+
+Technical HUDs may highlight or draw attention only *after* the protagonist has completed its current mechanical action, ensuring that animation and raw data do not compete simultaneously for the learner's cognitive bandwidth.
+
+---
+
+# 17. Constitutional Authority
 
 This document governs every visual representation produced within Cesvi.
 

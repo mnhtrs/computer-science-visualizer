@@ -4,7 +4,7 @@
 
 **Status:** FROZEN
 
-**Version:** 1.1.0
+**Version:** 1.3.0
 
 **Effective Date:** 2026-07-20
 
@@ -24,10 +24,10 @@ It is the official educational foundation governing all future Journeys produced
 
 | Document | Title | Version | Status |
 |---|---|---|---|
-| `00_VISION.md` | Vision | 1.1.0 | FROZEN |
+| `00_VISION.md` | Vision | 1.2.0 | FROZEN |
 | `01_EDUCATIONAL_PHILOSOPHY.md` | Educational Philosophy | 1.1.0 | FROZEN |
-| `02_VISUAL_LANGUAGE.md` | Visual Language | 1.1.0 | FROZEN |
-| `03_NARRATIVE_FRAMING.md` | Narrative Framing | 1.1.0 | FROZEN |
+| `02_VISUAL_LANGUAGE.md` | Visual Language | 1.3.0 | FROZEN |
+| `03_NARRATIVE_FRAMING.md` | Narrative Framing | 1.3.0 | FROZEN |
 
 ---
 

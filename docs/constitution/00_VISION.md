@@ -3,7 +3,7 @@
 **Title:** Vision
 **Purpose:** Defines why Cesvi exists, who it is for, its non-goals, and the ultimate definition of success.
 **Status:** Frozen
-**Version:** 1.1.0
+**Version:** 1.2.0
 **Dependencies:** None
 **Downstream Documents:** `01_EDUCATIONAL_PHILOSOPHY.md`, Governance, Architecture, Curriculum
 **Review Gates:** Educational Psychologist, CS Professor, Curriculum Designer, Technical Writer, Software Architect, AI Systems Engineer
@@ -39,13 +39,17 @@ Cesvi will never optimize for or permit:
 *   Quantity of content over absolute clarity of understanding.
 
 ## 7. Target Audience
-Curious minds and practitioners seeking structural understanding to replace rote memorization, regardless of their prior domain experience.
+The audience is strictly dual-purpose:
+1. **Absolute Beginners:** Individuals with zero prior IT or technical background must be able to comprehend every concept effortlessly.
+2. **Specialized IT Students:** Practitioners must gain a structural depth of knowledge accurate and rigorous enough to ensure success in professional technical interviews.
 
 ## 8. Long-Term Impact
 To cultivate thinkers who build, debug, and innovate with structural confidence. Cesvi permanently alters a learner's cognitive approach, producing individuals whose foundational knowledge is highly transferable and remains resilient against the continuous churn of shifting technologies.
 
 ## 9. Definition of Success
-Success is achieved when a learner can independently reason about, trace, and accurately predict the consequences of changes within a system from first principles, and successfully transfer that reasoning model to novel technologies and future computational domains without relearning foundational truths.
+Success is achieved only when **both** of the following occur simultaneously:
+- A non-technical beginner can perfectly explain the system's behavior without confusion.
+- An IT student can use the exact same mental model to pass a deep technical engineering interview.
 
 ## 10. Scope and Authority of the Constitution
 This Constitution serves as the supreme, permanent framework for the entire Cesvi ecosystem. Future documents, workflows, and implementations must never contradict this document. The strict hierarchy of authority is:

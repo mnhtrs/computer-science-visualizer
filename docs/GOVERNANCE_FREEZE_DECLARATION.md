@@ -4,7 +4,7 @@
 
 **Status:** FROZEN
 
-**Governance Version:** 1.1.0
+**Governance Version:** 1.3.0
 
 **Effective Date:** 2026-07-20
 
@@ -16,10 +16,10 @@
 
 | Document | Responsibility | Version | Status |
 |---|---|---|---|
-| `constitution/00_VISION.md` | Mission, principles, non-goals | 1.1.0 | FROZEN |
+| `constitution/00_VISION.md` | Mission, principles, non-goals | 1.2.0 | FROZEN |
 | `constitution/01_EDUCATIONAL_PHILOSOPHY.md` | Cognitive laws, verification, state mutation | 1.1.0 | FROZEN |
-| `constitution/02_VISUAL_LANGUAGE.md` | Visual representation, protagonist continuity, transition causality | 1.1.0 | FROZEN |
-| `constitution/03_NARRATIVE_FRAMING.md` | Narration laws, knowledge sequencing, learning momentum | 1.1.0 | FROZEN |
+| `constitution/02_VISUAL_LANGUAGE.md` | Visual representation, protagonist continuity, transition causality | 1.3.0 | FROZEN |
+| `constitution/03_NARRATIVE_FRAMING.md` | Narration laws, knowledge sequencing, learning momentum | 1.3.0 | FROZEN |
 | `FREEZE_DECLARATION.md` | Constitutional freeze record | 1.0.0 | FROZEN |
 | `AUTHORING_WORKFLOW.md` | Journey production process (SOP) | 1.0.0 | FROZEN |
 | `CHAPTER_REVIEW_CHECKLIST.md` | Quality assurance verification | 1.0.0 | FROZEN |

@@ -5,6 +5,7 @@
 </div>
 
 <br/>
+
 **Cesvi** is an interactive, story-driven educational platform designed to make computer architecture, networks, and software engineering concepts intuitive and engaging. Our philosophy: *Animation first, explanation second, terminology last*. Think of it as a blend of 3Blue1Brown, Kurzgesagt, and Brilliant — but fully interactive and readable by someone who has never written a line of code.
 
 > Cesvi is **not** a static documentation site. It is a collection of guided, interactive journeys through real computational systems.

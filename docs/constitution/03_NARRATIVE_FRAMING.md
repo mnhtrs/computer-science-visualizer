@@ -6,7 +6,7 @@
 
 **Status:** Frozen
 
-**Version:** 1.1.0
+**Version:** 1.3.0
 
 **Dependencies:**
 - 00_VISION.md
@@ -195,7 +195,27 @@ Understanding must arise through the unfolding of the Journey, not through docum
 
 ---
 
-# 15. Learning Momentum
+# 15. Plain Language Translation
+
+Technical IT terminology must be translated and explained using everyday language accessible to absolute beginners.
+
+While the correct technical jargon must be introduced (per the Knowledge Reveal Law), the underlying explanation must never rely on other unexplained jargon. 
+
+The narration must aim for the dual goal: a person with zero IT background can understand it intuitively, and an IT student can use the exact same explanation to succeed in professional interviews.
+
+---
+
+# 16. Global Terminology Lock
+
+While explanations and analogies may be translated into the learner's native language (e.g., Vietnamese) to maximize comprehension, the core names of components, architectures, and protocols must be locked to their global English origins.
+
+Complete localization of core technical keywords (e.g., translating "DOM Tree" to "Cây Đối tượng Tài liệu" or "Layout Thrashing" to "Tranh giành Bố cục") is constitutionally prohibited, as it destroys the learner's ability to search for the concept globally or use it in professional interviews.
+
+Whenever a localized term is used, the exact English equivalent must be explicitly displayed alongside it (Bilingual Terminology).
+
+---
+
+# 17. Learning Momentum
 
 Every Journey must open with exactly one central question that remains unresolved until the final scene.
 
@@ -212,7 +232,7 @@ Scenes that function as independent explanatory units, disconnected from the Jou
 
 ---
 
-# 16. Constitutional Authority
+# 18. Constitutional Authority
 
 This document governs every explanation, dialogue, interaction, narration, analogy, instructional sequence, and educational script produced within Cesvi.
 
