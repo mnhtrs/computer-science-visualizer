@@ -136,7 +136,7 @@ export interface BeatDescription {
   duration: number
   scene?: string
   active?: string | null
-  travel?: { from: number; to: number }
+  travel?: { from: number; to: number; holdAt?: { index: number; from: number; to: number } }
   rest?: { at: number }
   emerge?: boolean
   effect?: string // 'run' | 'loop' | …

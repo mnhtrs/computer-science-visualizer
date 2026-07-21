@@ -36,14 +36,16 @@ export interface PresentationState {
   dpr: number
 }
 
-export function createPresentationState(sparkStart: Vec2): PresentationState {
+// `sceneId` lets any chapter declare its own first scene (Ch-01 passes 'pc';
+// the default keeps every older call site valid).
+export function createPresentationState(sparkStart: Vec2, sceneId = 'pc'): PresentationState {
   return {
     phase: 'waiting',
     beatIndex: 0,
     beatElapsed: 0,
     lastTs: 0,
     t: 0,
-    scene: 'pc',
+    scene: sceneId,
     fade: 0,
     fading: 'none',
     active: null,

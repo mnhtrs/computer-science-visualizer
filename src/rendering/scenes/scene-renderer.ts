@@ -45,7 +45,9 @@ function renderScene(ctx: CanvasRenderingContext2D, s: PresentationState, chapte
     if (dieGeo) drawDie(ctx, dieGeo)
     const nonDie = sc.infrastructure.filter((i) => i.kind !== 'die' && i.kind !== 'die-internal-rail')
     if (nonDie.length) {
-      const busActive = activeId === 'bus'
+      // A beat may target an infrastructure entry directly (by id) — Ch-01's
+      // 'bus' entity rule stays untouched and takes precedence.
+      const busActive = activeId === 'bus' || (!!s.active && nonDie.some((i) => i.id === s.active))
       drawInfrastructure(ctx, nonDie, busActive, s.t)
     }
   }

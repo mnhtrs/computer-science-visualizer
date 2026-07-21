@@ -9,6 +9,14 @@ import { drawRAM } from './memory-renderer'
 import { drawCPUChip } from './processor-renderer'
 import { drawGPU, drawMonitor } from './display-renderer'
 import { drawGeneric } from './generic-renderer'
+import {
+  drawBrowserWindow,
+  drawNIC,
+  drawServiceBox,
+  drawHTTPSLock,
+  drawStation,
+  drawWorkbench,
+} from './web-parts'
 
 export const entityRenderers: Record<string, EntityRenderer> = {
   ssd: drawSSD,
@@ -16,6 +24,13 @@ export const entityRenderers: Record<string, EntityRenderer> = {
   'cpu-chip': drawCPUChip,
   gpu: drawGPU,
   monitor: drawMonitor,
+  // browser-level kinds (introduced by Chapter 02)
+  'browser-window': drawBrowserWindow,
+  nic: drawNIC,
+  'service-box': drawServiceBox,
+  'https-lock': drawHTTPSLock,
+  station: drawStation,
+  workbench: drawWorkbench,
 }
 
 export function renderEntity(

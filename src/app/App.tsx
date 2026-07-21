@@ -24,22 +24,21 @@ export default function App() {
   const inViewer = route.name === 'viewer' && isAvailable(route.chapterId)
 
   if (inViewer) {
-    // The current Viewer still imports chapter 1's runtime statically (Phase 4
-    // makes it chapter-agnostic via the registry's loadStory). Mounting it
-    // conditionally guarantees its raf/listeners are cleaned up on unmount.
-    return (
-      <>
-        <Viewer />
-        <button
-          className="viewer-back"
-          onClick={() => navigate('#/')}
-          title="Back to home (Esc)"
-          aria-label="Back to home"
-        >
-          ◁ <span>Home</span>
-        </button>
-      </>
+    // The Viewer is chapter-agnostic: it receives the chapter id and lazy-loads
+    // the chapter through the registry. Mounting it conditionally (and keying
+    // by id) guarantees its raf/listeners/state are cleaned up between chapters.
+    const id = (route as { name: 'viewer'; chapterId: string }).chapterId
+    const homeBtn = (
+      <button
+        className="viewer-back"
+        onClick={() => navigate('#/')}
+        title="Back to home (Esc)"
+        aria-label="Back to home"
+      >
+        ◁ <span>Home</span>
+      </button>
     )
+    return <Viewer key={id} chapterId={id} controlsLeft={homeBtn} />
   }
 
   // Unknown or coming-soon chapter id → fall back to home.

@@ -17,6 +17,7 @@ export function drawInfrastructure(
     if (it.kind === 'case') drawCase(ctx, it)
     else if (it.kind === 'cable') drawCable(ctx, it, active)
     else if (it.kind === 'bus-rail') drawBusRail(ctx, it, active, t)
+    else if (it.kind === 'zone-divider') drawZoneDivider(ctx, it)
     // unknown infra kinds are ignored (a future chapter ships its own renderer)
   }
 }
@@ -57,6 +58,33 @@ function drawCable(
   ctx.moveTo(pts[0].x, pts[0].y)
   ctx.lineTo(pts[1].x, pts[1].y)
   ctx.stroke()
+  ctx.restore()
+}
+
+// v1.3.13 (F61, owner round 13): a hairline marking a conceptual boundary
+// (Chapter 02 uses it for the CPU/GPU silicon split inside the engine hall —
+// "phải có ranh giới giữa CPU và GPU chứ gộp lại dễ hiểu nhầm"). Chapter 01
+// ships no zone-divider items; the kind is ignored anywhere else anyway.
+function drawZoneDivider(ctx: CanvasRenderingContext2D, it: InfrastructureDescription) {
+  const pts = it.points
+  if (!pts || pts.length < 2) return
+  ctx.save()
+  ctx.strokeStyle = 'rgba(226,232,240,0.25)'
+  ctx.lineWidth = 2
+  ctx.setLineDash([6, 6])
+  ctx.beginPath()
+  ctx.moveTo(pts[0].x, pts[0].y)
+  ctx.lineTo(pts[1].x, pts[1].y)
+  ctx.stroke()
+  ctx.setLineDash([])
+  const label = (it as InfrastructureDescription & { label?: string }).label
+  if (label) {
+    ctx.fillStyle = 'rgba(226,232,240,0.45)'
+    ctx.font = `600 12px ${FONT}`
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'top'
+    ctx.fillText(label, (pts[0].x + pts[1].x) / 2, pts[1].y + 16)
+  }
   ctx.restore()
 }
 

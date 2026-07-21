@@ -149,7 +149,27 @@ export function update(s: PresentationState, dt: number, chapter: Chapter) {
       sparkScale = 1
     } else if (b.travel) {
       const path = pathOf(chapter, scene).slice(b.travel.from, b.travel.to + 1)
-      sparkPos = path.length >= 2 ? polylinePoint(path, easeInOutCubic(p)) : sparkPos
+      let param = easeInOutCubic(p)
+      // v1.3.7 (F45): optional mid-beat dwell — park the spark AT one anchor
+      // for a slice of the beat (owner round 7: the packet rests ~0.8 s on the
+      // NIC, which brightens meanwhile, then it rolls on to RAM). Ch-01 has
+      // no holdAt beats; untouched.
+      const h = b.travel.holdAt
+      if (h && h.index > b.travel.from && h.index <= b.travel.to) {
+        const full = pathOf(chapter, scene)
+        let before = 0
+        let total = 0
+        for (let i = b.travel.from; i < b.travel.to; i++) {
+          const dseg = Math.hypot(full[i + 1].x - full[i].x, full[i + 1].y - full[i].y)
+          if (i < h.index) before += dseg
+          total += dseg
+        }
+        const fA = total > 0 ? before / total : 0
+        if (p < h.from) param = fA * easeInOutCubic(clamp(p / h.from, 0, 1))
+        else if (p < h.to) param = fA
+        else param = fA + (1 - fA) * easeInOutCubic(clamp((p - h.to) / (1 - h.to), 0, 1))
+      }
+      sparkPos = path.length >= 2 ? polylinePoint(path, param) : sparkPos
       sparkScale = 1
     } else {
       const at = b.rest?.at ?? 0

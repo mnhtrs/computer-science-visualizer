@@ -24,7 +24,11 @@ export function rrPath(
   h: number,
   r: number,
 ) {
-  const rad = Math.min(r, w / 2, h / 2)
+  // v1.3.4 (F30): defensive clamp — a non-positive size (e.g. an animated
+  // panel whose width momentarily lerps through zero) must never reach arcTo
+  // with a negative radius; it used to throw IndexSizeError mid-playback.
+  if (w <= 0 || h <= 0) { ctx.beginPath(); return }
+  const rad = Math.max(0, Math.min(r, w / 2, h / 2))
   ctx.beginPath()
   ctx.moveTo(x + rad, y)
   ctx.arcTo(x + w, y, x + w, y + h, rad)
