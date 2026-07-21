@@ -1,4 +1,6 @@
-// narration/labels.ts — UI strings of Chapter 02 (the Viewer reads these via
+// narration/labels.ts
+// v1.1.1-shell (F75, owner round 17): tip glyphs now read "< >" — the
+// buttons are FA chevrons (bold angles), stock ◀ ▶ glyphs are gone. — UI strings of Chapter 02 (the Viewer reads these via
 // chapter.ui; every key the generic Viewer may look for is provided).
 
 import type { LocalizedText } from '../../../chapter-loader/types'
@@ -20,7 +22,7 @@ export const sceneTag: LocalizedText = {
   vi: 'Bên trong Browser Engine',
 }
 export const tipText: LocalizedText = {
-  en: 'Click the first result to begin. Use ◀ ▶ or the dots to step.',
-  vi: 'Bấm vào kết quả đầu tiên để bắt đầu. Dùng ◀ ▶ hoặc các chấm để lùi/tới.',
+  en: 'Click the first result to begin. Use the < > buttons or the dots to step.',
+  vi: 'Bấm vào kết quả đầu tiên để bắt đầu. Dùng nút < > hoặc các chấm để lùi/tới.',
 }
 export const doneLabel: LocalizedText = { en: 'Done', vi: 'Xong' }

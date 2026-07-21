@@ -126,7 +126,13 @@ export function update(s: PresentationState, dt: number, chapter: Chapter) {
         }
       } else if (execTime <= 0) {
         const a = s.t * 0.004
-        const anchor = nodePos(chapter, 'cu', instrIdx) ?? to
+        // VIEWER SHELL v1.1.10 (F93, owner round 26): park the spark at the
+        // FIRST PROGRAM ROW ('list', instr 0) during the pre-exec window,
+        // not orbiting the CU — owner: "đốm sáng lại ở vị trí LOAD ở CU
+        // thay vì ở LOAD của bảng PROGRAM? Lẽ ra đốm sáng phải ở bước đầu
+        // tiên luôn chứ?". Fetch of instr 0 lerps FROM the same 'list'
+        // row, so the handoff into execution is continuous by construction.
+        const anchor = nodePos(chapter, 'list', instrIdx) ?? nodePos(chapter, 'cu', instrIdx) ?? to
         pos = { x: anchor.x + Math.cos(a) * 9, y: anchor.y + Math.sin(a) * 6 }
       } else if (stage === 'execute' && ins.kind === 'arith') {
         if (sp < 0.35) pos = { x: lerp(from.x, to.x, sp / 0.35), y: lerp(from.y, to.y, sp / 0.35) }
@@ -155,7 +161,11 @@ export function update(s: PresentationState, dt: number, chapter: Chapter) {
       // NIC, which brightens meanwhile, then it rolls on to RAM). Ch-01 has
       // no holdAt beats; untouched.
       const h = b.travel.holdAt
-      if (h && h.index > b.travel.from && h.index <= b.travel.to) {
+      // v1.4.4 (F72, owner round 17): >= so a beat can DWELL AT ITS FIRST
+      // anchor (h.index === travel.from, fA = 0, holds p ∈ [h.from, h.to]).
+      // h.from = 0 is safe: the p < h.from branch then never runs, so no
+      // division by h.from happens. Ch-01 holds no such beat — unchanged.
+      if (h && h.index >= b.travel.from && h.index <= b.travel.to) {
         const full = pathOf(chapter, scene)
         let before = 0
         let total = 0

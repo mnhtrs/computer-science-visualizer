@@ -1,5 +1,7 @@
 # Chapter 02 — UI/Layout Revision v1.3.5 (Owner Feedback Round 5)
 
+> ⚠️ **ERRATUM (VIEWER SHELL v1.1.0):** **F35**'s top-LEFT corner for the scene tag is superseded by **F63** in `/docs/viewer/01_VIEWER_SHELL_REVISION_v1.1.0.md` — owner round 15 swapped the corners: tag now sits top-RIGHT, the Home pill takes the tag's old spot (re-measured; the F35 zone-selection method was reused). Everything else in F35 stands.
+
 > ⚠️ **ERRATA (v1.3.6):** **F33** (sequential hand-overs scheduled inside the *new* beat's head) is superseded by **F38** in `19_UI_LAYOUT_REVISION_v1.3.6.md` — the fade now belongs to the *old* beat's tail, so a dot never shows the previous block at all. **F37** stays conceptually (orange, loud group stop) but its shape is amended by **F40**: the 18 px pill is back to a 9×9 circle with the same ring and glow.
 
 **Status:** applied & verified · **Date:** 2026-07-20

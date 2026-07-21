@@ -7,6 +7,9 @@
 // v1.4.0 (18_NARRATION_VOICE_v1.4.0.md): owner-ordered voice pass — same
 // facts, everyday human phrasing, fewer dashes. No fact/term/M-truth changed.
 // v1.4.1 (20_...): vi rewritten meaning-first (owner: "đừng dịch máy móc").
+// v1.4.3 (30_...): forward-reference to Chapter 03 removed (F68,
+// new rule A-01) + panel lines ride WITH the spark via nextLineFrom
+// (F71: https .75, request .05, response .88), owner round 16.
 // v1.4.2 (22_...): curly quotes → straight; vi ellipses → plain dots.
 // v1.3.8 (23_...): NIC dwell shortened 0.8 s → 0.4 s (owner round 8, F47).
 // v1.3.9 (24_...): NIC dwell shortened 0.4 s → 0.24 s (owner round 9, F50).
@@ -47,11 +50,24 @@ export const beats: BeatDescription[] = [
     id: 'https',
     line: { en: 'Before any page data travels, the two machines open a road between them. Then the Browser knocks politely: they do a little math together and end up with the same secret keys on both sides, and the keys themselves are never sent anywhere. From now on their talk is private. That is HTTPS.', vi: 'Trước khi dữ liệu trang chạy đi, hai máy mở một con đường nối hai bên. Browser gõ cửa lễ phép: hai bên cùng làm một phép tính nhỏ và tính ra những chìa khóa bí mật giống hệt nhau ở cả hai đầu, còn bản thân chìa khóa thì không bao giờ đi trên đường cả. Từ giờ hai bên nói chuyện riêng tư. Đó là HTTPS.' },
     duration: 3200, active: 'httpslock', travel: { from: 8, to: 13 },
+    // v1.4.3 (F71, owner round 16): the ask-line arrives WITH the spark -
+    // from 75% of this beat (~400 ms before the lock is reached) the panel
+    // already reads the request line. No beat content changed.
+    nextLineFrom: 0.75,
   },
   {
     id: 'request',
     line: { en: 'Now the real ask, an HTTP request: "please send me the page".', vi: 'Giờ mới là lời nhờ thật, một HTTP request: "làm ơn gửi cho tôi trang web".' },
-    duration: 2400, active: 'server', travel: { from: 14, to: 16 },
+    duration: 2400, active: 'server',
+    // v1.4.4 (F72, owner round 17): the spark DWELLS at the lock for the
+    // first 720 ms (owner: "dom sang phai o HTTP 1 xiu nua") so the ask-line
+    // is actually readable - no more flicker. Dwell-at-first-anchor needed
+    // the F72 engine guard change (update.ts).
+    travel: { from: 14, to: 16, holdAt: { index: 14, from: 0, to: 0.30 } },
+    // v1.4.3 (F71) + v1.4.4 (F72 dwell): the server line appears exactly
+    // when the spark STARTS MOVING again (dwell end) = beat start + 720 ms.
+    // Ask-line total: 800 ms (https tail) + 720 ms (dwell) = ~1.5 s.
+    nextLineFrom: 0.30,
   },
   {
     id: 'server',
@@ -67,6 +83,11 @@ export const beats: BeatDescription[] = [
     // ~390 → ~240 ms. v1.3.11 (F57, owner round 11 "nhanh hơn xíu nữa"):
     // → ~150 ms — hold window 0.52→0.57.
     travel: { from: 17, to: 22, holdAt: { index: 21, from: 0.52, to: 0.57 } },
+    // v1.4.3 (F71, owner round 16): the workshop line covers the HOP itself
+    // (owner: narration and spark animation must go together) - from 88%
+    // of this beat (~360 ms before the to-engine hop) the panel already
+    // reads the workshop line.
+    nextLineFrom: 0.88,
   },
   // ---- ACT 3 — the rendering pipeline ----------------------------------------
   {
@@ -167,8 +188,10 @@ export const beats: BeatDescription[] = [
     duration: 3000, active: 'gpu', travel: { from: 25, to: 26 }, // v1.3.13 (F60): renumbered after the engine-door anchor removal
   },
   {
+    // v1.4.3 (F68, owner round 16): forward-reference to Chapter 03 REMOVED
+    // (new authoring rule A-01: a chapter never names a future chapter).
     id: 'recap',
-    line: { en: 'So the whole trip: the Browser took your wish, found the address, fetched the files, built the DOM, dressed it in CSS, ran the JavaScript, measured the Layout, wrote the Paint orders, colored the pixels, and the GPU put the page on screen. Next stop, Chapter 03: how data really crosses the Internet.', vi: 'Tóm lại cả hành trình: Browser nhận điều bạn muốn, tìm địa chỉ, tải các tệp, dựng DOM, mặc CSS, chạy JavaScript, đo Layout, viết lệnh Paint, tô các pixels, và GPU đưa trang lên màn hình. Trạm kế tiếp, Chapter 03: dữ liệu thật sự đi qua Internet ra sao.' },
+    line: { en: 'So the whole trip: the Browser took your wish, found the address, fetched the files, built the DOM, dressed it in CSS, ran the JavaScript, measured the Layout, wrote the Paint orders, colored the pixels, and the GPU put the page on screen.', vi: 'Tóm lại cả hành trình: Browser nhận điều bạn muốn, tìm địa chỉ, tải các tệp, dựng DOM, mặc CSS, chạy JavaScript, đo Layout, viết lệnh Paint, tô các pixels, và GPU đưa trang lên màn hình.' },
     // v1.3.13 (F60): renumbered to the window center after the door-anchor
     // removal (shadowed by effect:'loop' anyway — hygiene only).
     duration: 7200, active: 'browser', rest: { at: 26 }, effect: 'loop',

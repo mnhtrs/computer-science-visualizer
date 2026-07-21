@@ -1,5 +1,7 @@
 # Chapter 02 — Narration Typography v1.4.2
 
+> ⚠️ **SUPERSEDED AS CURRENT (v1.4.3):** the narration chain continues in `30_NARRATION_REVISION_v1.4.3.md` — b22's named forward-reference to Chapter 03 was REMOVED (F68, new authoring rule A-01: no chapter names a future chapter) and panel lines may run one step ahead near beat tails via `nextLineFrom` (F71: https .75, request .05, response .88). The typography rules in this document still stand.
+
 **Status:** applied & verified · **Date:** 2026-07-21
 **Scope:** displayed string typography in `narration/beats.ts` only. No facts, terms, wording, timing, or viewer changes. Frozen docs 01–09 untouched.
 **Change class:** narration typography — **owner-ordered round 7 (L-55)**: *"Bỏ toàn bộ mấy cái ngoặc dạng “ ” và thay bằng " ". Không được dùng những ký tự đặc biệt quá khi dịch sang tiếng Việt."* Approved inside the round-7 package (pkg-r7 = yes).

@@ -10,6 +10,10 @@
     "smoke": "esbuild scripts/smoke-chapters.ts --bundle --format=esm --loader:.jpg=dataurl --outfile=node_modules/.tmp-smoke.mjs --platform=node && node node_modules/.tmp-smoke.mjs"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.3.1",
+    "@fortawesome/free-brands-svg-icons": "^7.3.1",
+    "@fortawesome/free-solid-svg-icons": "^7.3.1",
+    "@fortawesome/react-fontawesome": "^3.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -19,6 +23,6 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "typescript": "^5.5.4",
-    "vite": "^5.4.0"
+    "vite": "^8.1.5"
   }
 }

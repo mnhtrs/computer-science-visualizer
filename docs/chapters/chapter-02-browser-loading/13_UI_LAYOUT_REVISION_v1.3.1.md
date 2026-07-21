@@ -1,5 +1,7 @@
 # Chapter 02 — UI/Layout Revision v1.3.1 (Amendment)
 
+> ⚠️ **ERRATUM (VIEWER SHELL v1.1.0):** **F18** (Home pill parked in the controls row, "never floats over the canvas") is superseded by **F63** in `/docs/viewer/01_VIEWER_SHELL_REVISION_v1.1.0.md` — owner round 15 explicitly ordered the Home pill back onto the stage's top-LEFT corner (the old tag spot), with fresh collision measurements at the owner stages and 1400-wide. The pill's styling/mechanics are unchanged.
+
 > ⚠️ **ERRATUM (v1.3.5):** **F19** (scene tag parked in the controls row) is superseded by **F35** in `17_UI_LAYOUT_REVISION_v1.3.5.md` — the scene tag is now an absolutely pinned overlay at the top-left corner of `.stage` (owner round 5, L-44). The Home pill mechanics of F18/F21 are unaffected.
 
 ---

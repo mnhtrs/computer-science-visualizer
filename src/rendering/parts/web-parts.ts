@@ -795,7 +795,7 @@ function drawResidue(
     case 11: { // tokenize → DOM: source lines + token chips
       ctx.save()
       ctx.globalAlpha = rf
-      ctx.font = `600 15px ${MONO}`
+      ctx.font = `600 18px ${MONO}`
       ctx.textAlign = 'left'
       ctx.textBaseline = 'middle'
       ctx.fillStyle = hexA('#e2e8f0', 0.75)
@@ -807,7 +807,7 @@ function drawResidue(
     case 12: { // DOM → css-fetch: the token hint line
       ctx.save()
       ctx.globalAlpha = rf
-      ctx.font = `600 13px ${MONO}`
+      ctx.font = `600 16px ${MONO}`
       ctx.textAlign = 'left'
       ctx.textBaseline = 'middle'
       ctx.fillStyle = hexA('#e2e8f0', 0.35)
@@ -911,7 +911,7 @@ function drawBytes(ctx: CanvasRenderingContext2D, r: Rect, st: StorySpec, frac: 
   ctx.globalAlpha = alphaMul
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
-  ctx.font = `600 18px ${MONO}`
+  ctx.font = `600 22px ${MONO}`
   for (let row = 0; row < rows; row++) {
     for (let c = 0; c < cols; c++) {
       const cells = row * cols + c
@@ -936,7 +936,7 @@ function drawBytes(ctx: CanvasRenderingContext2D, r: Rect, st: StorySpec, frac: 
     ctx.rect(charsZone.x, charsZone.y, charsZone.w, charsZone.h)
     ctx.clip()
     ctx.fillStyle = hexA('#e2e8f0', 0.95)
-    ctx.font = `600 19px ${MONO}`
+    ctx.font = `600 23px ${MONO}`
     ctx.textAlign = 'left'
     lines.forEach((ln, i) => {
       const show = Math.floor(clamp(frac * 1.4 - 0.15, 0, 1) * ln.length)
@@ -974,7 +974,7 @@ function drawChips(ctx: CanvasRenderingContext2D, r: Rect, st: StorySpec, frac: 
     ctx.lineWidth = 1.5
     ctx.stroke()
     ctx.fillStyle = '#e2e8f0'
-    ctx.font = `600 14px ${MONO}`
+    ctx.font = `600 17px ${MONO}`
     ctx.fillText(tk, x + chipW / 2, y + 22)
     ctx.globalAlpha = 1
   })
@@ -988,7 +988,7 @@ function stageChars(ctx: CanvasRenderingContext2D, r: Rect, st: StorySpec, frac:
   // Birth windows unchanged from F43: lines (frac−0.17)/0.12, chips
   // (frac−0.19)/0.81.
   const lineA = clamp((frac - 0.17) / 0.12, 0, 1)
-  ctx.font = `600 15px ${MONO}`
+  ctx.font = `600 18px ${MONO}`
   ctx.textAlign = 'left'
   ctx.textBaseline = 'middle'
   ctx.fillStyle = hexA('#e2e8f0', 0.75 * lineA)
@@ -1077,7 +1077,7 @@ function drawDomTree(
     ctx.fill()
     ctx.stroke()
     ctx.fillStyle = '#e2e8f0'
-    ctx.font = `700 13px ${MONO}`
+    ctx.font = `700 16px ${MONO}`
     ctx.textAlign = 'center'
     ctx.textBaseline = 'top'
     ctx.fillText(n.id === 'p' ? (opts.pLabelOverride ?? n.label) : n.label, p.x, p.y + (leafBand[n.id] ?? 26))
@@ -1091,7 +1091,7 @@ function stageDom(ctx: CanvasRenderingContext2D, r: Rect, st: StorySpec, frac: n
   // beat's opening, so the hint line waits until it has cleared (eased frac
   // 0.12 ≈ 31 % real time — the residue is gone by 10 %), then HOLDS to beat
   // end (no tailA). The DOM tree stays a live arc (b11→b16) at full presence.
-  ctx.font = `600 13px ${MONO}`
+  ctx.font = `600 16px ${MONO}`
   ctx.textAlign = 'left'
   ctx.textBaseline = 'middle'
   const hintA = clamp((frac - 0.12) / 0.05, 0, 1)
@@ -1148,7 +1148,7 @@ function stageCssFetch(ctx: CanvasRenderingContext2D, r: Rect, st: StorySpec, fr
     ctx.lineWidth = 2
     ctx.stroke()
     ctx.fillStyle = '#e9d5ff'
-    ctx.font = `800 14px ${FONT}`
+    ctx.font = `800 17px ${FONT}`
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     ctx.fillText('CSS', px, py)
@@ -1183,7 +1183,7 @@ function drawCssomCards(ctx: CanvasRenderingContext2D, r: Rect, st: StorySpec, h
     ctx.lineWidth = 1.5
     ctx.stroke()
     ctx.fillStyle = '#e9d5ff'
-    ctx.font = `600 14px ${MONO}`
+    ctx.font = `600 17px ${MONO}`
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     ctx.fillText(rule, cx + cardW / 2, y + 26)
@@ -1207,7 +1207,7 @@ function stageCssom(ctx: CanvasRenderingContext2D, r: Rect, st: StorySpec, frac:
   const headA = clamp((frac - 0.3) / 0.08, 0, 1)
   if (headA > 0 && r.w - half - 40 >= 56) {
     ctx.fillStyle = hexA('#c084fc', 0.8 * headA)
-    ctx.font = `800 14px ${FONT}`
+    ctx.font = `800 17px ${FONT}`
     ctx.textAlign = 'left'
     ctx.fillText(doneBlink ? 'CSSOM ✓' : 'CSSOM', r.x + half + 30, r.y + 30)
   }
@@ -1244,7 +1244,7 @@ function stageMutated(ctx: CanvasRenderingContext2D, r: Rect, st: StorySpec, fra
   // never in the leaf-label band.
   const drawStatus = (alpha: number) => {
     ctx.fillStyle = hexA('#4ade80', alpha)
-    ctx.font = `800 15px ${FONT}`
+    ctx.font = `800 18px ${FONT}`
     ctx.textAlign = 'right'
     ctx.textBaseline = 'top'
     ctx.fillText('✓ DOM complete', r.x + r.w - 18, r.y + 12)
@@ -1297,7 +1297,7 @@ function drawRenderTree(ctx: CanvasRenderingContext2D, r: Rect, st: StorySpec, f
     ctx.fill()
     ctx.stroke()
     ctx.fillStyle = '#e2e8f0'
-    ctx.font = `700 13px ${MONO}`
+    ctx.font = `700 16px ${MONO}`
     ctx.textAlign = 'center'
     ctx.textBaseline = 'top'
     ctx.fillText(n.label, p.x, p.y + 24)
@@ -1370,7 +1370,7 @@ function drawBlueprintIn(ctx: CanvasRenderingContext2D, pg: Rect, f2: number, al
     ctx.lineTo(bx + bw, by - 3)
     ctx.stroke()
     ctx.fillStyle = hexA('#4ade80', 0.75)
-    ctx.font = `600 12px ${MONO}`
+    ctx.font = `600 14px ${MONO}`
     ctx.textAlign = 'center'
     ctx.fillText(`${Math.round(bw)}px`, bx + bw / 2, by - 14)
   })
@@ -1423,7 +1423,7 @@ function drawReceipts(ctx: CanvasRenderingContext2D, r: Rect, st: StorySpec, fra
     ctx.lineWidth = 1.5
     ctx.stroke()
     ctx.fillStyle = '#fecdd3'
-    ctx.font = `600 14px ${MONO}`
+    ctx.font = `600 17px ${MONO}`
     ctx.textAlign = 'left'
     ctx.textBaseline = 'middle'
     ctx.fillText(cmd, listX + 16, y + 20)

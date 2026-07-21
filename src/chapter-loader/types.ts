@@ -138,6 +138,12 @@ export interface BeatDescription {
   active?: string | null
   travel?: { from: number; to: number; holdAt?: { index: number; from: number; to: number } }
   rest?: { at: number }
+  /** v1.4.3 (F71, owner round 16): narration must RIDE WITH the spark. When
+      set, the panel swaps to the NEXT beat's line as soon as this beat's
+      elapsed fraction reaches `nextLineFrom` — e.g. the "HTTP request" line
+      appears while the spark is still closing in on the HTTPS lock. Line
+      ownership stays with the beat; only the panel display shifts earlier. */
+  nextLineFrom?: number
   emerge?: boolean
   effect?: string // 'run' | 'loop' | …
 }

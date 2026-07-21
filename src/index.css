@@ -43,37 +43,107 @@ body {
   display: block;
   cursor: default;
 }
-.sceneTag {
-  /* v1.3.5 (F35): pinned to the stage's top-left corner (owner round 5) —
-     supersedes F19's controls-row parking. Dead space in both scenes there:
-     nearest web content (Desktop label) sits ≥8 px below at every zoom; the
-     engine scene's first content starts at screen x ≈ 348. */
+/* VIEWER SHELL v1.1.1 (F74, owner round 17): .stageHome REMOVED — the Home
+   pill lives in the panel head now (before the brand); nothing floats over
+   the stage. v1.1.0's float (F63) superseded by the owner's own order. */
+.panel-head-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+/* VIEWER SHELL v1.1.0 (F63, owner round 15) — .sceneTag + @keyframes tagIn
+   DELETED by VIEWER SHELL v1.1.2 (F81, owner round 18, f81 = kill-topright):
+   the persistent top-right inside tag is gone; the one-shot .insideIntro
+   below replaces its moment, and .insideTagRow (under the title) replaces
+   its residency. */
+
+/* VIEWER SHELL v1.1.2 (F80/D5, owner round 18): the one-shot inside intro.
+   VIEWER SHELL v1.1.3 (F83, owner round 19): SIZE AMENDED — "cho nho nhỏ
+   tí": 15 px text (was 20), padding 7x18 px (was 10x28), letter-spacing
+   1.6 px (was 2), top 44 px (was 56), lighter shadow; approved f83 = tag-15.
+   Motion window unchanged: drop 300 ms — hold 900 ms — exit up 300 ms. */
+.insideIntro {
   position: absolute;
-  top: 14px;
-  left: 14px;
-  width: fit-content;
-  z-index: 4;
-  font-size: 12px;
+  top: 44px;
+  left: 50%;
+  z-index: 5;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.6px;
   text-transform: uppercase;
   text-align: center;
+  white-space: nowrap;
   color: #0a0f24;
   background: linear-gradient(90deg, #fb923c, #fb7185);
-  padding: 6px 14px;
+  padding: 7px 18px;
   border-radius: 999px;
-  box-shadow: 0 4px 18px rgba(251, 113, 133, 0.4);
+  box-shadow: 0 6px 22px rgba(251, 113, 133, 0.4);
   pointer-events: none;
-  animation: tagIn 0.4s ease both;
+  /* v1.1.10 (F94, owner round 26): the whole ceremony is FAST — 650 ms
+     total: slide down 0→200 (31%), hold 200→400 (62%), rise+fade 400→650.
+     The engine unfreezes AT 400 ms as the tag starts leaving. */
+  animation: insideIntroAnim 0.65s ease both;
 }
-@keyframes tagIn {
-  from {
+@keyframes insideIntroAnim {
+  0% {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translate(-50%, -60px);
   }
-  to {
+  31% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, 0);
+  }
+  62% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -60px);
+  }
+}
+/* VIEWER SHELL v1.1.7 (F90, owner round 23): shake + subtle blink fire
+   SIMULTANEOUSLY with the tag slide-down — owner round-23 directive: "đổi lại cho nó rung + hơi nháy canvas đồng thời với thời điểm inside tag có hiệu ứng chạy xuống".
+   History: v1.1.3 shook at 300 ms (on landing), v1.1.4 at 600 ms (after
+   a 300 ms stand) — both staged AFTER the drop; the owner now wants the
+   impact AT the drop. Numbers: shake ±3 px 0→500 ms; blink = brightness
+   pulse 1 → 1.12 → 0.94 → 1.07 → 1 over 600 ms (subtle, "hơi nháy");
+   zero delays. Tag motion + freeze window [fire, fire+1200 ms] unchanged;
+   blocks still start when the tag leaves. */
+.canvas.shake {
+  /* v1.1.10 (F94): shortened to hug the new 650 ms ceremony — shake spans
+     the slide+hold (0→400 ms), blink the same; both start at the drop. */
+  animation: canvasShake 0.4s ease, canvasBlink 0.45s ease;
+}
+@keyframes canvasBlink {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  25% {
+    filter: brightness(1.12);
+  }
+  50% {
+    filter: brightness(0.94);
+  }
+  75% {
+    filter: brightness(1.07);
+  }
+}
+@keyframes canvasShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-3px);
+  }
+  40% {
+    transform: translateX(3px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
   }
 }
 .dot.cpu {
@@ -86,16 +156,25 @@ body {
    Ch-02 engine strip: 12 cdots → 185 px ≈ the 185 px gold row (owner round 6:
    "timeline màu xanh lá nên dài dài ra cho giống timeline vàng"). */
 .cycleDots {
+  /* VIEWER SHELL v1.1.0 (F65, owner round 15): the strip is a COLUMN of
+     balanced rows now (.cdotRow) — ch1's 40 steps land as 20 + 20 with
+     aligned columns instead of flex-wrap's ragged 27 + 13. Single-row
+     strips (ch2's 12 engine dots) render exactly one row: same look. */
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
   padding: 7px 14px;
   background: rgba(74, 222, 128, 0.08);
   border: 1px solid rgba(74, 222, 128, 0.3);
   border-radius: 999px;
-  max-width: 460px;
-  flex-wrap: wrap;
   justify-content: center;
+}
+.cdotRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
 }
 .cycleDots.clickable .cdot {
   cursor: pointer;
@@ -145,13 +224,9 @@ body {
   align-items: center;
   justify-content: space-between;
 }
-.brand {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: #fff;
-  text-shadow: 0 0 18px rgba(120, 140, 255, 0.6);
-}
+/* .brand DELETED — VIEWER SHELL v1.1.2 (F82/D2, owner round 18): the "Cesvi"
+   wordmark next to the Home pill was removed by owner order. (The homepage
+   hero's own .brand lives untouched in home.css.) */
 .langtoggle {
   display: flex;
   gap: 6px;
@@ -176,6 +251,14 @@ body {
 .langtoggle .pill:hover {
   transform: translateY(-1px);
 }
+/* VIEWER SHELL v1.1.2 (D4, owner round 18): title + step counter on ONE
+   baseline row — e.g. "How does a computer run my program? · Step 3 / 40". */
+.chapterRow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 .chapter {
   font-size: 19px;
   font-weight: 700;
@@ -188,6 +271,30 @@ body {
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #7e8bc4;
+  white-space: nowrap;
+}
+/* VIEWER SHELL v1.1.2 (D6, owner round 18): the resident inside identity —
+   a small orange tag text followed by the GREEN timeline's own step counter
+   (the green is borrowed from .cycleDots .cdot.done, #4ade80). */
+.insideTagRow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.insideTagTxt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #fb923c;
+}
+.insideTagStep {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #4ade80;
+  white-space: nowrap;
 }
 .narration {
   font-size: clamp(20px, 2.4vw, 27px);
@@ -384,6 +491,37 @@ body {
   justify-content: center;
   gap: 14px;
 }
+/* VIEWER SHELL v1.1.0 (F66, owner round 15): the waiting-state social logos.
+   Same artwork as the homepage footer's .social-btn, sized for the controls
+   bar; shown ONLY while phase === 'waiting', completely gone after start. */
+.ctl-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.ctl-social .social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: rgba(234, 240, 255, 0.85);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.ctl-social .social-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+.ctl-social .social-btn svg {
+  width: 20px;
+  height: 20px;
+}
 .ctl-right {
   display: flex;
   align-items: center;
@@ -471,6 +609,25 @@ body {
   background: rgba(255, 255, 255, 0.08);
 }
 
+/* VIEWER SHELL v1.1.1 (F76, owner round 17): cramped footer bar → the
+   pause/resume/replay buttons show ONLY their leading FA symbol (labels
+   wrapped in .btn-label). Width budget measured (worst cluster ≈730 px on
+   ch1-deep vs 560 px narrow stage): collapse below 620 px bar width via
+   container query, with a plain media fallback for older engines. */
+.controls {
+  container-type: inline-size;
+}
+@container (max-width: 620px) {
+  .controls .btn .btn-label {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .controls .btn .btn-label {
+    display: none;
+  }
+}
+
 @media (max-width: 760px) {
   .app {
     grid-template-columns: 1fr;
@@ -487,9 +644,10 @@ body {
   }
 }
 
-/* ===== Back-to-home pill (parked in the Viewer's controls row — LAYOUT v1.3.1 F18:
-   never floats over the canvas, so overlap with world content is impossible
-   by construction at any viewport; margin-right:auto pushes the dot group center) ===== */
+/* ===== Back-to-home pill (VIEWER SHELL v1.1.0 F63, owner round 15: floats at
+   the stage's top-left corner via .stageHome — explicit owner order supersedes
+   F18's "never floats over the canvas" rule; corners re-measured dead space at
+   owner stages 836x570 / 775x536 and 1400-wide, see docs/viewer/01) ===== */
 .viewer-back {
   display: inline-flex;
   align-items: center;

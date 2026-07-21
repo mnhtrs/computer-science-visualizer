@@ -8,6 +8,8 @@ import { useHashRoute } from './useHashRoute'
 import { isAvailable } from '../chapter-loader/registry'
 import Home from '../home/Home'
 import Viewer from '../viewer/Viewer'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHouse } from '@fortawesome/free-solid-svg-icons'
 
 export default function App() {
   const { route, navigate } = useHashRoute()
@@ -35,7 +37,7 @@ export default function App() {
         title="Back to home (Esc)"
         aria-label="Back to home"
       >
-        ◁ <span>Home</span>
+        <FontAwesomeIcon icon={faHouse} /> <span>Home</span>
       </button>
     )
     return <Viewer key={id} chapterId={id} controlsLeft={homeBtn} />

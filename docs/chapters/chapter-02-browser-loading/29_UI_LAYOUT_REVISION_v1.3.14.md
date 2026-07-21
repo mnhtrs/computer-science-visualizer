@@ -1,5 +1,7 @@
 # Chapter 02 — UI/Layout Revision v1.3.14 (Owner Feedback Round 14)
 
+> ⚠️ **SUPERSEDED AS CURRENT (v1.3.15):** the layout chain continues in `31_UI_LAYOUT_REVISION_v1.3.15.md` — engine-hall station names upsized 15 → 18 (netport 12 → 14) and the dark-workbench element text ×1.2 across 15 measured sites (F69/F70, owner round 16). F62's finale gating from this document stands untouched.
+
 > ⚠️ Standing: this document amends v1.3.13 (28_). Frozen docs 01–09 untouched; Chapter 01 untouched.
 
 **Status:** applied & verified · **Date:** 2026-07-21
