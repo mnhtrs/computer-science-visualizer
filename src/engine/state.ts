@@ -23,14 +23,10 @@ export interface PresentationState {
   programDone: boolean
   trail: Vec2[]
   lang: Lang
-  // CPU-style execution state (unused by non-CPU chapters)
-  execInstrIdx: number
-  execStage: string
-  execStageSp: number
-  execStageIdx: number
-  execRegs: (number | null)[]
-  execMem: number | null
-  execDone: boolean
+  /** Chapter-specific execution state. The engine stores this but does not
+   *  interpret its shape. The chapter's computeExecution hook produces it.
+   *  Renderers and orchestrator read it with chapter-specific typing. */
+  executionState: unknown
   W: number
   H: number
   dpr: number
@@ -55,13 +51,7 @@ export function createPresentationState(sparkStart: Vec2, sceneId = 'pc'): Prese
     programDone: false,
     trail: [],
     lang: 'en',
-    execInstrIdx: 0,
-    execStage: '',
-    execStageSp: 0,
-    execStageIdx: -1,
-    execRegs: [],
-    execMem: null,
-    execDone: false,
+    executionState: null,
     W: 0,
     H: 0,
     dpr: 1,

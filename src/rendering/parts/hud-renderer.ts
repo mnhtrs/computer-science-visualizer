@@ -3,9 +3,14 @@
 // data now come from the chapter contract, never from the Chapter 1 barrel.
 
 import type { PresentationState, Renderable } from '../types'
-import type { Chapter, Vec2, BBox } from '../../chapter-loader/types'
+import type { Chapter, Vec2, BBox, ExecutionState } from '../../chapter-loader/types'
 import { FONT, hexA, rrPath } from '../primitives/canvas-utils'
 import { glow } from '../primitives/glow'
+
+/** Safely extract ExecutionState from the generic executionState field. */
+function getExec(s: PresentationState): ExecutionState | null {
+  return (s.executionState as ExecutionState) ?? null
+}
 
 export function drawStageTracker(
   ctx: CanvasRenderingContext2D,
@@ -34,7 +39,8 @@ export function drawStageTracker(
   labels.forEach((lab, i) => {
     const x = cursor
     const pillW = widths[i]
-    const on = i === s.execStageIdx
+    const exec = getExec(s)
+    const on = exec ? i === exec.stageIndex : false
     rrPath(ctx, x, y, pillW, pillH, 14)
     ctx.fillStyle = on ? hexA('#facc15', 0.95) : 'rgba(255,255,255,0.05)'
     ctx.fill()
@@ -73,8 +79,9 @@ export function drawProgramList(
   const ROW_H = ex?.rowH ?? 42
   const railColor = ex?.railColor ?? '#a78bfa'
   const rowY = (i: number) => LIST_TOP + i * ROW_H + ROW_H / 2
-  const cur = s.execInstrIdx
-  const stage = s.execStage
+  const exec = getExec(s)
+  const cur = exec ? exec.instrIdx : 0
+  const stage = exec ? exec.stage : ''
   const fetching = stage === 'fetch'
   const executing = stage === 'execute' || stage === 'writeback'
   const PROGRAM = prog.instructions
@@ -105,8 +112,8 @@ export function drawProgramList(
 
   PROGRAM.forEach((ins, i) => {
     const y = rowY(i)
-    const done = i < cur || s.execDone
-    const isCur = i === cur && !s.execDone
+    const done = i < cur || (exec?.done ?? false)
+    const isCur = i === cur && !(exec?.done ?? false)
     if (isCur) glow(ctx, { x: LIST_X + LIST_W / 2, y } as Vec2, railColor, 70, 0.18 + 0.1 * Math.sin(s.t * 0.008))
     rrPath(ctx, LIST_X, y - ROW_H / 2 + 3, LIST_W, ROW_H - 6, 9)
     ctx.fillStyle = isCur ? hexA(railColor, 0.18) : done ? 'rgba(52,211,153,0.08)' : 'rgba(255,255,255,0.03)'
@@ -154,6 +161,7 @@ export function drawProgramList(
   ctx.fillStyle = '#fff'
   ctx.font = `700 14px ${FONT}`
   ctx.textAlign = 'center'
-  ctx.fillText(s.execMem === null || s.execMem === undefined ? '\u00B7' : String(s.execMem), LIST_X + 115, memY)
+  const memVal = exec ? exec.mem : null
+  ctx.fillText(memVal === null || memVal === undefined ? '\u00B7' : String(memVal), LIST_X + 115, memY)
   ctx.restore()
 }

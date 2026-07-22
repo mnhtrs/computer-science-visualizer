@@ -4,11 +4,16 @@
 // Chapter 1 barrel.
 
 import type { EntityRenderer, PresentationState, Renderable } from '../types'
-import type { Chapter, ProgramInstruction } from '../../chapter-loader/types'
+import type { ExecutionState } from '../../chapter-loader/types'
 import { FONT, hexA, rrPath } from '../primitives/canvas-utils'
 import { glow } from '../primitives/glow'
 import { drawName } from '../primitives/text'
 import { TAU } from '../primitives/math'
+
+/** Safely extract ExecutionState from the generic executionState field. */
+function getExec(s: PresentationState): ExecutionState | null {
+  return (s.executionState as ExecutionState) ?? null
+}
 
 // ---- CPU chip (generic, entity-driven) -----------------------------------
 export const drawCPUChip: EntityRenderer = (ctx, s, e, active) => {
@@ -46,20 +51,21 @@ export const drawCPUChip: EntityRenderer = (ctx, s, e, active) => {
   drawName(ctx, e.pos, e.name, e.color, active, 34)
 }
 
-// ---- Control Unit (CPU-specific, contract-driven) ------------------------
-export function drawCUBox(
-  ctx: CanvasRenderingContext2D,
-  s: PresentationState,
-  t: number,
-  e: Renderable,
-  chapter: Chapter,
-) {
-  const prog = chapter.program
-  if (!prog) return
-  const ins: ProgramInstruction | undefined = prog.instructions[s.execInstrIdx]
+// ---- Control Unit (contract-driven via entity.extra) ---------------------
+export const drawControlUnit: EntityRenderer = (ctx, s, e, active) => {
+  const t = s.t
+  const ex = (e.extra ?? {}) as {
+    instructions?: { text: string; kind: string; dst?: number; src?: number; imm?: number }[]
+    registerNames?: string[]
+  }
+  const instructions = ex.instructions
+  const registerNames = ex.registerNames
+  if (!instructions || !registerNames) return
+  const exec = getExec(s)
+  if (!exec) return
+  const ins = instructions[exec.instrIdx]
   if (!ins) return
-  const regNames = prog.registerNames
-  const decoding = s.execStage === 'decode'
+  const decoding = exec.stage === 'decode'
   const w = 320
   const h = 58
   ctx.save()
@@ -91,12 +97,12 @@ export function drawCUBox(
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.fillText(ins.text, e.pos.x + 24, e.pos.y - 6)
-  if (decoding || s.execStage === 'execute' || s.execStage === 'writeback') {
-    const sp = decoding ? s.execStageSp : 1
+  if (decoding || exec.stage === 'execute' || exec.stage === 'writeback') {
+    const sp = decoding ? exec.stageProgress : 1
     const chips = [
       (ins as { text: string }).text.split(' ')[0],
-      ins.dst !== undefined ? regNames[ins.dst] : null,
-      ins.src !== undefined ? regNames[ins.src] : null,
+      ins.dst !== undefined ? registerNames[ins.dst] : null,
+      ins.src !== undefined ? registerNames[ins.src] : null,
       ins.imm !== undefined ? String(ins.imm) : null,
     ].filter((c): c is string => !!c)
     chips.forEach((c, i) => {
@@ -118,20 +124,22 @@ export function drawCUBox(
   drawName(ctx, e.pos, e.name, e.color, true, h / 2 + 8)
 }
 
-// ---- ALU (CPU-specific, contract-driven) ---------------------------------
-export function drawALUBox(
-  ctx: CanvasRenderingContext2D,
-  s: PresentationState,
-  t: number,
-  e: Renderable,
-  chapter: Chapter,
-) {
-  const prog = chapter.program
-  if (!prog) return
-  const ins: ProgramInstruction | undefined = prog.instructions[s.execInstrIdx]
+// ---- ALU (contract-driven via entity.extra) ---------------------------------
+export const drawALU: EntityRenderer = (ctx, s, e, active) => {
+  const t = s.t
+  const ex = (e.extra ?? {}) as {
+    instructions?: { text: string; kind: string; op?: string; dst?: number; src?: number }[]
+    stateAfter?: (k: number) => { regs: (number | null)[]; mem: number | null }
+  }
+  const instructions = ex.instructions
+  const stateAfter = ex.stateAfter
+  if (!instructions) return
+  const exec = getExec(s)
+  if (!exec) return
+  const ins = instructions[exec.instrIdx]
   if (!ins) return
-  const working = s.execStage === 'execute' && ins.kind === 'arith'
-  const done = s.execStage === 'writeback' && ins.kind === 'arith'
+  const working = exec.stage === 'execute' && ins.kind === 'arith'
+  const done = exec.stage === 'writeback' && ins.kind === 'arith'
   const tw = 260
   const bw = 150
   const h = 68
@@ -171,8 +179,8 @@ export function drawALUBox(
     ctx.fillText(ins.op === '*' ? '\u00D7' : '+', e.pos.x, e.pos.y - 2)
     ctx.shadowBlur = 0
   } else if (done) {
-    const next = chapter.runtime?.stateAfter
-      ? chapter.runtime.stateAfter(s.execInstrIdx + 1)
+    const next = stateAfter
+      ? stateAfter(exec.instrIdx + 1)
       : { regs: [], mem: null }
     const r = ins.dst !== undefined ? next.regs[ins.dst] ?? 0 : 0
     ctx.fillStyle = '#fff3c0'

@@ -6,7 +6,7 @@
 
 **Status:** Frozen
 
-**Version:** 1.3.0
+**Version:** 2.0.0
 
 **Dependencies:**
 - 00_VISION.md
@@ -135,10 +135,9 @@ Equivalent structures shall be represented consistently throughout the entire Ce
 
 A visual language established for one educational domain shall not arbitrarily change when another domain is introduced.
 
-**Chapter 1 serves as the absolute canonical benchmark for all visual aesthetics.** 
-Every subsequent Chapter must faithfully replicate the visual style, animation physics, scene transitions, and specific particle effects (e.g., light sparks) established in Chapter 1. 
+All chapters must conform to the canonical visual style established as the product standard. Every subsequent chapter must faithfully replicate the established visual style, animation physics, and scene transition patterns.
 
-Consistency strengthens transferable mental models. Deviation from the Chapter 1 benchmark for artistic reasons is constitutionally forbidden.
+Consistency strengthens transferable mental models. Deviation from the canonical standard for artistic or convenience reasons is constitutionally forbidden.
 
 ---
 
@@ -232,3 +231,36 @@ This document governs every visual representation produced within Cesvi.
 All rendering systems, Journey implementations, animations, simulations, illustrations, and future visualization technologies shall comply with these constitutional laws.
 
 Where conflict exists between implementation convenience and this Constitution, this Constitution prevails.
+
+---
+
+# 18. Product Identity Consistency
+
+All chapters must share a consistent visual language, interaction model, and information architecture.
+
+Learners must immediately recognize any chapter as belonging to the same educational product. The specific educational content may differ entirely, but the product shell — visual style, navigation, information layout, animation language — must be consistent.
+
+This consistency includes:
+
+- Visual language (color palette, spatial grammar, animation physics)
+- Interaction model (playback controls, timeline, protagonist)
+- Information architecture (context → explanation → supporting information → navigation aids)
+- Animation language (transition styles, effect vocabulary, timing grammar)
+
+The educational value of the product depends on learners being able to transfer skills and intuition across chapters. Inconsistent product identity fragments the learning experience.
+
+**Rationale:** Without an explicit identity invariant, future chapters could drift in visual style, interaction model, or information architecture. Product identity consistency ensures that every chapter reinforces the learner's accumulated familiarity with the system.
+
+---
+
+# 19. Orientation Preservation
+
+At every moment during playback, the learner must be able to determine:
+
+- where the attention focus currently is,
+- what system component is being explored,
+- what remains before the journey concludes.
+
+No chapter may lose learner orientation. Orientation is maintained through continuous protagonist traceability (§13), causal transitions (§14), and consistent spatial structure (§6).
+
+**Rationale:** Orientation loss breaks the learner's mental model. When a learner cannot determine where they are in the system or what they are observing, educational comprehension collapses. This invariant ensures that every chapter preserves the learner's sense of position within the system at all times.

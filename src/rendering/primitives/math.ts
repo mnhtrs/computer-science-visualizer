@@ -1,11 +1,5 @@
 // rendering/primitives/math.ts
-// Pure math helpers shared by the engine and the renderers. No React, no DOM.
+// Re-exports from shared/math.ts for backward compatibility.
+// All consumers in the rendering layer can continue importing from this file.
 
-export const TAU = Math.PI * 2
-
-export const lerp = (a: number, b: number, t: number) => a + (b - a) * t
-
-export const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v))
-
-export const easeInOutCubic = (t: number) =>
-  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+export { TAU, lerp, clamp, easeInOutCubic } from '../../shared/math'

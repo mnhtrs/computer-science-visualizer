@@ -7,22 +7,8 @@
 // "dynamic state" hooks the chapter provides and the engine/renderer read.
 // This removes the last Chapter-1 dependencies from the runtime.
 
-export type Lang = 'en' | 'vi'
-
-/** A piece of text in both supported languages. */
-export interface LocalizedText {
-  en: string
-  vi: string
-}
-
-export type Vec2 = { x: number; y: number }
-
-export interface BBox {
-  minX: number
-  maxX: number
-  minY: number
-  maxY: number
-}
+import type { Lang, LocalizedText, Vec2, BBox } from '../shared/types'
+export type { Lang, LocalizedText, Vec2, BBox }
 
 export type ChapterStatus = 'available' | 'coming-soon'
 
@@ -193,6 +179,33 @@ export interface ChapterRuntime {
   totalSteps?: () => number
   /** Labels reused by overlays (program/PC/memory/etc.). */
   labels?: Record<string, LocalizedText>
+  /**
+   * Compute chapter-specific execution state from generic timing data.
+   * Called by the engine every frame during the 'run' beat.
+   * Returns the execution state object that renderers and orchestrator read,
+   * or null if no execution is active.
+   *
+   * The engine computes generic timing (instrIdx, ft, stage, sp, finished)
+   * using the chapter's StageModel. This hook adds chapter-specific state
+   * (register values, memory values, etc.) on top of that timing.
+   */
+  computeExecution?: (timing: {
+    instrIdx: number
+    ft: number
+    stage: string
+    sp: number
+    finished: boolean
+    execTime: number
+  }) => unknown
+  /**
+   * Provide the spark's seam position when fading out of a scene.
+   * Called by the engine during scene transitions. Returns the world-space
+   * position where the spark should hold during the fade-out, or null to
+   * use the generic fallback (last point of the scene's path).
+   *
+   * This hook replaces hardcoded scene-name checks in the engine.
+   */
+  seamPosition?: (scene: string) => Vec2 | null
 }
 
 // ---------------------------------------------------------------------------
@@ -218,4 +231,12 @@ export interface Chapter {
   hitZones?: HitZone[]
   /** UI text the Viewer itself needs (titles, button labels, …). */
   ui?: Record<string, LocalizedText>
+  /**
+   * Chapter-specific entity renderers. The orchestrator merges these with the
+   * shared registry before passing to the scene renderer. Each renderer
+   * conforms to the EntityRenderer signature from rendering/types.ts.
+   * Typed as Record<string, unknown> to avoid circular dependency;
+   * consumers cast to EntityRenderer at the call site.
+   */
+  entityRenderers?: Record<string, unknown>
 }

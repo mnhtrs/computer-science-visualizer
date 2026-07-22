@@ -20,13 +20,8 @@ export interface PresentationState {
   programDone: boolean
   trail: Vec2[]
   lang: Lang
-  execInstrIdx: number
-  execStage: string
-  execStageSp: number
-  execStageIdx: number
-  execRegs: (number | null)[]
-  execMem: number | null
-  execDone: boolean
+  /** Chapter-specific execution state. Renderers cast to the appropriate type. */
+  executionState: unknown
   W: number
   H: number
   dpr: number

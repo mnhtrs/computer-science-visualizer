@@ -9,13 +9,11 @@
 //   - rendering/primitives and rendering/parts (the draw routines)
 
 import type { Chapter } from '../../chapter-loader/types'
-import type { PresentationState, Renderable } from '../types'
+import type { EntityRenderer, PresentationState, Renderable } from '../types'
 import { drawSpark } from '../primitives/spark'
 import { drawInfrastructure } from '../parts/infrastructure-renderer'
 import { drawDie, dieGeometryFrom } from '../parts/die-renderer'
 import { drawStageTracker, drawProgramList } from '../parts/hud-renderer'
-import { drawRegistersBox } from '../parts/memory-renderer'
-import { drawCUBox, drawALUBox } from '../parts/processor-renderer'
 import { renderEntity } from '../parts/registry'
 
 function toRenderable(e: Chapter['scenes'][number]['entities'][number]): Renderable {
@@ -24,7 +22,17 @@ function toRenderable(e: Chapter['scenes'][number]['entities'][number]): Rendera
   }
 }
 
-function renderScene(ctx: CanvasRenderingContext2D, s: PresentationState, chapter: Chapter) {
+/**
+ * Render a complete scene. The entityRegistry merges shared + chapter-specific
+ * renderers, so the scene renderer never needs to know about chapter-specific
+ * entity kinds.
+ */
+function renderScene(
+  ctx: CanvasRenderingContext2D,
+  s: PresentationState,
+  chapter: Chapter,
+  entityRegistry?: Record<string, EntityRenderer>,
+) {
   const sc = chapter.scenes.find((x) => x.id === s.scene) ?? chapter.scenes[0]
   if (!sc) return
 
@@ -60,21 +68,7 @@ function renderScene(ctx: CanvasRenderingContext2D, s: PresentationState, chapte
 
   // ---- entities ----
   for (const e of sc.entities) {
-    // CPU-internal entity kinds are rendered via their specialised functions
-    // because they need the chapter program/runtime; route them accordingly.
-    if (e.kind === 'control-unit') {
-      drawCUBox(ctx, s, s.t, toRenderable(e), chapter)
-      continue
-    }
-    if (e.kind === 'registers') {
-      drawRegistersBox(ctx, s, s.t, toRenderable(e), chapter)
-      continue
-    }
-    if (e.kind === 'alu') {
-      drawALUBox(ctx, s, s.t, toRenderable(e), chapter)
-      continue
-    }
-    renderEntity(ctx, e.kind, s, toRenderable(e), activeId === e.id)
+    renderEntity(ctx, e.kind, s, toRenderable(e), activeId === e.id, entityRegistry)
   }
 
   // ---- payload (the protagonist) ----

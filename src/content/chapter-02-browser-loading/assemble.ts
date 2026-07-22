@@ -32,6 +32,14 @@ import {
   chapterTitle, waitingLine, startButton, sceneTag, tipText, doneLabel,
 } from './narration/labels'
 import type { PartSpec } from './types'
+import {
+  drawBrowserWindow,
+  drawNIC,
+  drawServiceBox,
+  drawHTTPSLock,
+  drawStation,
+  drawWorkbench,
+} from './renderers'
 
 // ---- helpers ------------------------------------------------------------------
 const toEntity = (
@@ -159,6 +167,14 @@ export function assembleChapter(m: ChapterMeta): Chapter {
       sceneTag,
       tipText,
       doneLabel,
+    },
+    entityRenderers: {
+      'browser-window': drawBrowserWindow,
+      nic: drawNIC,
+      'service-box': drawServiceBox,
+      'https-lock': drawHTTPSLock,
+      station: drawStation,
+      workbench: drawWorkbench,
     },
   }
 }

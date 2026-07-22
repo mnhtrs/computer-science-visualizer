@@ -5,31 +5,22 @@
 
 import type { Chapter, Vec2 } from '../chapter-loader/types'
 import type { PresentationState } from './state'
-import { clamp, lerp, easeInOutCubic } from '../rendering/primitives/math'
-import { polylinePoint } from '../rendering/primitives/canvas-utils'
-import { stageAt, stageEndpoints, nodePos, displayState } from './cycle'
+import { clamp, lerp, easeInOutCubic } from '../shared/math'
+import { polylinePoint } from '../shared/geometry'
+import { stageAt, stageEndpoints, nodePos } from './cycle'
 
 /** Pick the protagonist's path for the current scene. */
 function pathOf(chapter: Chapter, scene: string): Vec2[] {
   return chapter.scenes.find((sc) => sc.id === scene)?.path ?? []
 }
 
-/** The spark's "seam" position when a scene is fading out. */
+/** The spark's "seam" position when a scene is fading out.
+ *  Uses chapter-provided seamPosition hook if available,
+ *  otherwise falls back to the last point of the scene's path. */
 function seamOut(chapter: Chapter, scene: string): Vec2 {
-  // When leaving the PC scene to enter the CPU, hold at the CPU position so
-  // the spark doesn't jump to the monitor edge.
-  if (scene === 'pc') {
-    const cpuEntity = chapter.scenes
-      .find((s) => s.id === 'pc')
-      ?.entities.find((e) => e.kind === 'cpu-chip')
-    if (cpuEntity) return cpuEntity.pos
-  }
-  // When leaving the CPU scene, hold at the ALU position (last station).
-  if (scene === 'cpu') {
-    const aluEntity = chapter.scenes
-      .find((s) => s.id === 'cpu')
-      ?.entities.find((e) => e.kind === 'alu')
-    if (aluEntity) return aluEntity.pos
+  if (chapter.runtime?.seamPosition) {
+    const pos = chapter.runtime.seamPosition(scene)
+    if (pos) return pos
   }
   const p = pathOf(chapter, scene)
   return p.length ? p[p.length - 1] : { x: 0, y: 0 }
@@ -191,33 +182,33 @@ export function update(s: PresentationState, dt: number, chapter: Chapter) {
     }
   }
 
-  // ---- CPU execution state ----
+  // ---- chapter-specific execution state (via runtime hook) ----
   const progEx = chapter.program
   const runIEx = progEx ? indexOfEffect(chapter, 'run') : -1
-  if (progEx && runIEx >= 0 && s.beatIndex === runIEx && s.fading !== 'out') {
-    const execTime = Math.max(0, s.beatElapsed - progEx.stageModel.execOffset)
-    const perInstr = progEx.stageModel.perInstr
-    const instrs = progEx.instructions
-    const finished = execTime >= instrs.length * perInstr
-    const instrIdx = clamp(Math.floor(execTime / perInstr), 0, instrs.length - 1)
-    const ft = clamp(execTime / perInstr - instrIdx, 0, 1)
-    const { stage, sp } = stageAt(chapter, ft)
-    s.execInstrIdx = instrIdx
-    s.execStage = finished || execTime <= 0 ? '' : stage
-    s.execStageSp = sp
-    s.execStageIdx = finished || execTime <= 0 ? -1 : progEx.stageModel.stages.indexOf(stage)
-    const ds = displayState(chapter, instrIdx, ft)
-    s.execRegs = ds.regs
-    s.execMem = ds.mem
-    s.execDone = finished
-  } else if (progEx && runIEx >= 0 && s.beatIndex > runIEx) {
-    s.execDone = true
-    s.execStage = ''
-    s.execStageIdx = -1
-    s.execInstrIdx = progEx.instructions.length - 1
-    const last = chapter.runtime?.stateAfter ? chapter.runtime.stateAfter(progEx.instructions.length) : { regs: [], mem: null }
-    s.execRegs = last.regs
-    s.execMem = last.mem
+  if (chapter.runtime?.computeExecution) {
+    if (progEx && runIEx >= 0 && s.beatIndex === runIEx && s.fading !== 'out') {
+      const execTime = Math.max(0, s.beatElapsed - progEx.stageModel.execOffset)
+      const perInstr = progEx.stageModel.perInstr
+      const instrs = progEx.instructions
+      const finished = execTime >= instrs.length * perInstr
+      const instrIdx = clamp(Math.floor(execTime / perInstr), 0, instrs.length - 1)
+      const ft = clamp(execTime / perInstr - instrIdx, 0, 1)
+      const { stage, sp } = stageAt(chapter, ft)
+      s.executionState = chapter.runtime.computeExecution({ instrIdx, ft, stage, sp, finished, execTime })
+    } else if (progEx && runIEx >= 0 && s.beatIndex > runIEx) {
+      s.executionState = chapter.runtime.computeExecution({
+        instrIdx: progEx.instructions.length - 1,
+        ft: 1,
+        stage: '',
+        sp: 0,
+        finished: true,
+        execTime: Infinity,
+      })
+    } else {
+      s.executionState = null
+    }
+  } else {
+    s.executionState = null
   }
 
   s.active = active

@@ -2,10 +2,15 @@
 // RAM (entity-driven, generic) + Registers panel (CPU-specific, contract-driven).
 
 import type { EntityRenderer, PresentationState, Renderable } from '../types'
-import type { Chapter } from '../../chapter-loader/types'
+import type { ExecutionState } from '../../chapter-loader/types'
 import { FONT, hexA, rrPath } from '../primitives/canvas-utils'
 import { glow } from '../primitives/glow'
 import { drawName } from '../primitives/text'
+
+/** Safely extract ExecutionState from the generic executionState field. */
+function getExec(s: PresentationState): ExecutionState | null {
+  return (s.executionState as ExecutionState) ?? null
+}
 
 // ---- RAM (generic) -------------------------------------------------------
 export const drawRAM: EntityRenderer = (ctx, s, e, active) => {
@@ -30,20 +35,22 @@ export const drawRAM: EntityRenderer = (ctx, s, e, active) => {
   drawName(ctx, e.pos, e.name, e.color, active)
 }
 
-// ---- Registers (CPU-specific, contract-driven) ---------------------------
-export function drawRegistersBox(
-  ctx: CanvasRenderingContext2D,
-  s: PresentationState,
-  t: number,
-  e: Renderable,
-  chapter: Chapter,
-) {
-  const prog = chapter.program
-  if (!prog) return
-  const ins = prog.instructions[s.execInstrIdx]
+// ---- Registers (contract-driven via entity.extra) -------------------------
+export const drawRegisters: EntityRenderer = (ctx, s, e, active) => {
+  const t = s.t
+  const ex = (e.extra ?? {}) as {
+    instructions?: { text: string; kind: string; dst?: number; src?: number }[]
+    registerNames?: string[]
+  }
+  const instructions = ex.instructions
+  const registerNames = ex.registerNames
+  if (!instructions || !registerNames) return
+  const exec = getExec(s)
+  if (!exec) return
+  const ins = instructions[exec.instrIdx]
   if (!ins) return
-  const regNames = prog.registerNames
-  const wb = s.execStage === 'writeback'
+  const regNames = registerNames
+  const wb = exec.stage === 'writeback'
   const w = 360
   const h = 64
   ctx.save()
@@ -61,7 +68,7 @@ export function drawRegistersBox(
   const x0 = e.pos.x - totalW / 2
   regNames.forEach((nm, i) => {
     const cx = x0 + i * (sw + gap)
-    const val = s.execRegs[i]
+    const val = exec.regs[i]
     const isDst = wb && ins.dst === i
     rrPath(ctx, cx, e.pos.y - 20, sw, 40, 8)
     ctx.fillStyle = isDst ? hexA('#ffffff', 0.95) : hexA(e.color, 0.12)

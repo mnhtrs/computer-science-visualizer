@@ -6,7 +6,7 @@
 
 **Status:** Frozen
 
-**Version:** 1.3.0
+**Version:** 2.0.0
 
 **Dependencies:**
 - 00_VISION.md
@@ -237,3 +237,39 @@ Scenes that function as independent explanatory units, disconnected from the Jou
 This document governs every explanation, dialogue, interaction, narration, analogy, instructional sequence, and educational script produced within Cesvi.
 
 Where conflict exists between narrative convenience and truthful learning, truthful learning shall always prevail.
+
+---
+
+# 19. Product Experience Consistency
+
+Every chapter must preserve the canonical educational rhythm. The learning experience follows a consistent pattern:
+
+1. **Observe:** The learner first sees the system in action.
+2. **Focus:** Attention is directed to the specific component or mechanism being studied.
+3. **Explore:** The learner examines the mechanism's internal behavior.
+4. **Understand:** The learner can predict the mechanism's behavior.
+5. **Continue:** The journey proceeds to the next mechanism.
+6. **Summarize:** The chapter concludes by reinforcing the central question.
+
+This rhythm is not a fixed sequence — it is a recurring pattern that may repeat within a chapter as new mechanisms are explored. The specific timing, visuals, and interactions that express this rhythm are not mandated. Only the rhythm itself is invariant.
+
+Every chapter must feel like it belongs to the same educational product. The learning rhythm is a key component of product identity.
+
+**Rationale:** The educational value of Cesvi depends on learners being able to transfer learning skills across chapters. If each chapter introduced a different learning rhythm, the learner would spend cognitive effort adapting to the rhythm rather than absorbing the content. Consistent rhythm enables the learner to focus entirely on the educational content.
+
+---
+
+# 20. Entry and Exit Clarity
+
+Every chapter must provide:
+
+- an obvious beginning that invites the learner to start,
+- a clear educational journey with continuous progress,
+- a satisfying conclusion that reinforces the central question,
+- the ability to replay the journey.
+
+The learner must always know when learning begins and when the learning objective has been completed.
+
+The entry point establishes the learner's commitment to the journey. The exit point reinforces learning and enables review. No chapter may leave the learner uncertain about whether the journey has begun or concluded.
+
+**Rationale:** Without clear entry and exit points, the learner cannot frame the educational experience. An ambiguous beginning fails to establish commitment. An ambiguous ending fails to reinforce learning. Both entry and exit must be unmistakable, interactive, and educational.

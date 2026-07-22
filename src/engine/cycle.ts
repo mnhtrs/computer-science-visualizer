@@ -2,7 +2,7 @@
 // Fetch → Decode → Execute → Write Back → PC++ cycle math. Pure functions.
 
 import type { Chapter, ProgramInstruction, Vec2 } from '../chapter-loader/types'
-import { clamp } from '../rendering/primitives/math'
+import { clamp } from '../shared/math'
 
 export interface StageAt {
   stage: string

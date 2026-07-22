@@ -103,34 +103,7 @@ const desktopScene: SceneDescription = {
   ],
 }
 
-const cpuScene: SceneDescription = {
-  id: 'cpu',
-  bbox: BBOX_CPU,
-  cameraPad: 0.94,
-  entities: [
-    toEntity({ ...cu, pos: CU_POS } as never, 'cpu'),
-    toEntity({ ...registers, pos: REG_POS } as never, 'cpu'),
-    toEntity({ ...alu, pos: ALU_POS } as never, 'cpu'),
-  ],
-  infrastructure: [
-    { id: 'die', kind: 'die', rect: DIE },
-    { id: 'die-internal-rail', kind: 'die-internal-rail', points: [{ x: CU_POS.x, y: CU_POS.y + 30 }, { x: ALU_POS.x, y: ALU_POS.y - 34 }] },
-  ],
-  overlays: [
-    { id: 'stage-tracker', kind: 'stage-tracker' },
-    { id: 'program-list', kind: 'program-list' },
-  ],
-  extra: {
-    listX: LIST_X,
-    listW: LIST_W,
-    listTop: LIST_TOP,
-    rowH: ROW_H,
-    railColor: ram.color,
-    trackerY: STAGE_TRACKER_Y,
-  },
-}
-
-// ---- program -------------------------------------------------------------
+// ---- program (must be defined before cpuScene) ----------------------------
 const programInstructions: ProgramInstruction[] = PROGRAM.map((ins) => ({
   text: ins.text,
   kind: ins.kind,
@@ -187,6 +160,44 @@ function nodePos(id: string, instrIdx: number) {
 function stateAfter(k: number) {
   return REG_STATES[Math.max(0, Math.min(k, REG_STATES.length - 1))]
 }
+
+// ---- cpu scene (uses program data, defined after program) -----------------
+const cpuScene: SceneDescription = {
+  id: 'cpu',
+  bbox: BBOX_CPU,
+  cameraPad: 0.94,
+  entities: [
+    toEntity({ ...cu, pos: CU_POS } as never, 'cpu', {
+      instructions: programInstructions,
+      registerNames: REG_NAMES,
+      stateAfter: (k: number) => stateAfter(k),
+    }),
+    toEntity({ ...registers, pos: REG_POS } as never, 'cpu', {
+      instructions: programInstructions,
+      registerNames: REG_NAMES,
+    }),
+    toEntity({ ...alu, pos: ALU_POS } as never, 'cpu', {
+      instructions: programInstructions,
+      stateAfter: (k: number) => stateAfter(k),
+    }),
+  ],
+  infrastructure: [
+    { id: 'die', kind: 'die', rect: DIE },
+    { id: 'die-internal-rail', kind: 'die-internal-rail', points: [{ x: CU_POS.x, y: CU_POS.y + 30 }, { x: ALU_POS.x, y: ALU_POS.y - 34 }] },
+  ],
+  overlays: [
+    { id: 'stage-tracker', kind: 'stage-tracker' },
+    { id: 'program-list', kind: 'program-list' },
+  ],
+  extra: {
+    listX: LIST_X,
+    listW: LIST_W,
+    listTop: LIST_TOP,
+    rowH: ROW_H,
+    railColor: ram.color,
+    trackerY: STAGE_TRACKER_Y,
+  },
+}
 function displayStateHook(instrIdx: number, ft: number) {
   const base = REG_STATES[instrIdx]
   const regs = base.regs.slice()
@@ -207,6 +218,42 @@ const runtime: ChapterRuntime = {
   displayState: displayStateHook,
   totalSteps: () => TOTAL_STEPS,
   labels: { programLabel, pcLabel, memLabel },
+  seamPosition: (scene: string) => {
+    // When leaving the PC scene, hold at the CPU chip position
+    if (scene === 'pc') {
+      return cpu.pos
+    }
+    // When leaving the CPU scene, hold at the ALU position
+    if (scene === 'cpu') {
+      return ALU_POS
+    }
+    return null
+  },
+  computeExecution: (timing) => {
+    const { instrIdx, ft, stage, sp, finished, execTime } = timing
+    if (finished || execTime <= 0) {
+      const last = stateAfter(finished ? PROGRAM.length : 0)
+      return {
+        instrIdx: finished ? PROGRAM.length - 1 : 0,
+        stage: '',
+        stageProgress: 0,
+        stageIndex: -1,
+        regs: last.regs,
+        mem: last.mem,
+        done: finished,
+      }
+    }
+    const ds = displayStateHook(instrIdx, ft)
+    return {
+      instrIdx,
+      stage,
+      stageProgress: sp,
+      stageIndex: STAGES.indexOf(stage as typeof STAGES[number]),
+      regs: ds.regs,
+      mem: ds.mem,
+      done: false,
+    }
+  },
 }
 
 // ---- narration hooks -----------------------------------------------------
