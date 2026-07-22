@@ -3,7 +3,7 @@
 **Title:** Educational Philosophy
 **Purpose:** Defines the deterministic cognitive laws and verification boundaries governing mental model construction.
 **Status:** Frozen
-**Version:** 1.0.0
+**Version:** 2.0.0
 **Dependencies:** `00_VISION.md`
 **Downstream Documents:** `02_VISUAL_LANGUAGE.md`, `03_NARRATIVE_FRAMING.md`, Curriculum, Journeys, Runtime Architecture
 **Review Gates:** Educational Psychologist, CS Professor, Curriculum Designer, Software Architect, AI Systems Engineer
@@ -39,3 +39,9 @@ The learning environment must enforce strict causality when a learner fails a ve
 ## 6. Knowledge Retrieval Engine
 Curriculum architecture must enforce the retrieval of previously established mental models across longitudinal timescales.
 *   **6.1. Mandatory Retrieval:** A conceptual model established in a prior module must be actively subjected to State-Predictive Verification in downstream modules to prevent cognitive decay.
+
+## 7. The Mandatory Multi-Stage Pedagogical Quality Gate
+To guarantee that technical implementation never outpaces, compromises, or dilutes educational quality, no chapter may be designed, drafted, or coded without passing through a formal multi-stage pedagogical review process.
+*   **7.1. Stage 1: Journey Definition:** Before drafting scenes or writing a single line of code, a chapter must establish a strict Journey Definition. This document must declare: exactly one Central Question, the assumed Entry State, the target Exit State, a bounded Scope, a set of forbidden Non-Goals, and a prioritized list of common learner Misconceptions to actively prevent.
+*   **7.2. Stage 2: Pedagogical Audit:** Before implementation begins, the planned storyboard, scenes, transitions, and narration must be audited against this Constitution. The auditor must verify that: the story is completely cohesive, the "Problem-First" progression is perfectly honored, and no unnecessary cognitive load is introduced.
+*   **7.3. Root-Cause Quality Protection:** When an educational regression is detected in an existing or planned chapter (e.g., overly dry narration, textbook-style documentation, or fragmented narrative rhythm), designers must not merely patch the symptoms. They must identify the root educational gap, strengthen the chapter's conceptual progression, and update this Constitution to permanently prevent similar regressions in future work.

@@ -37,9 +37,9 @@
 | | |
 |---|---|
 | **Verify** | The Chapter has exactly one central educational question, declared before any design work began. |
-| **Why it matters** | A Journey without a single question becomes a survey. The learner has no frame for what they are trying to understand. See: `03_NARRATIVE_FRAMING §15`. |
-| **Pass criteria** | The question is written down. It is singular. A complete beginner can understand it before watching the Journey. The final scene visibly answers it. |
-| **Common failures** | Two questions merged into one ("How does the CPU run a program and why is RAM needed?"). A question so broad it cannot be answered in one Journey. |
+| **Why it matters** | A Journey without a single question becomes a survey. The learner has no frame for what they are trying to understand. If a concept starts answering another question, it belongs in another chapter. Never expand a chapter simply because more technical knowledge exists. Technical completeness must never override educational clarity. See: `03_NARRATIVE_FRAMING §17`. |
+| **Pass criteria** | The question is written down. It is singular. A complete beginner can understand it before watching the Journey. The final scene visibly answers it. Teach only what is required for the learner's current understanding. The success of a chapter is evaluated by learner understanding and retention, not by technical coverage. |
+| **Common failures** | Two questions merged into one. A question so broad it cannot be answered in one Journey. Expanding the chapter with unnecessary concepts because of technical completeness. |
 | **Corrective action** | Return to Authoring Workflow Phase 1. |
 
 ---
@@ -77,6 +77,18 @@
 | **Pass criteria** | Every reference to an unexplained system layer is explicitly flagged as a Deferred Internal or Terminal Boundary within the Journey documentation. |
 | **Common failures** | "The operating system then schedules the next process" — used casually without classifying OS scheduling as a Deferred Internal. |
 | **Corrective action** | Return to Authoring Workflow Phase 1 to formally classify, or Phase 6 to remove the reference. |
+
+---
+
+### 1.5 — Chapter-to-Chapter Continuity (The Continuity Contract)
+
+| | |
+|---|---|
+| **Verify** | The Chapter satisfies the Continuity Contract by carrying over the exact state, URLs, assets, and payloads from the previous chapter. |
+| **Why it matters** | Learners must feel they are continuing one continuous, immersive story. Fragmented chapter boundaries force the learner to waste cognitive energy adapting to a new lesson context. See: `docs/AUTHORING_WORKFLOW.md Phase 1`. |
+| **Pass criteria** | The starting scene and variables of this chapter (Ch N) align seamlessly with the end-state of Ch N-1. The mock URL, domains, data payloads, and hardware row are identical. |
+| **Common failures** | A chapter starts with a completely different mock URL or dataset, disconnecting it from the previous chapter's story. |
+| **Corrective action** | Return to Authoring Workflow Phase 1 to enforce the Continuity Contract. |
 
 ---
 
@@ -216,10 +228,10 @@
 
 | | |
 |---|---|
-| **Verify** | The Journey reads as a single, unbroken narrative from first scene to last. |
-| **Why it matters** | Independent scenes produce the "slide deck" effect, where the learner reads but does not travel. This violates `03_NARRATIVE_FRAMING §15`. |
-| **Pass criteria** | Remove all narration. The animation alone should tell a coherent story. A learner watching without sound should be able to follow the protagonist's journey. |
-| **Common failures** | Scenes that could be reordered without breaking the narrative. Scenes that begin with a title card rather than with the protagonist arriving from the previous scene. |
+| **Verify** | The Journey reads as a single, unbroken narrative from first scene to last, and integrates seamlessly with adjacent chapters on the pathway. |
+| **Why it matters** | Independent scenes produce the "slide deck" effect, where the learner reads but does not travel. This violates `03_NARRATIVE_FRAMING §19`. Furthermore, chapters should never feel like standalone technical lessons; the learner must always feel they are continuing one continuous journey where the ending of one chapter naturally becomes the beginning of the next, making transitions between chapters feel inevitable rather than artificial. |
+| **Pass criteria** | Remove all narration. The animation alone should tell a coherent story. A learner watching without sound should be able to follow the protagonist's journey. The entry state connects directly to the exit state of the prior chapter. Story progression must be driven by learner curiosity rather than by a list of technologies. |
+| **Common failures** | Scenes that could be reordered without breaking the narrative. Scenes that begin with a title card rather than with the protagonist arriving. A chapter starting state that has no continuity or narrative connection to the prior chapter's final state. |
 | **Corrective action** | Return to Authoring Workflow Phase 4. |
 
 ---
@@ -229,9 +241,9 @@
 | | |
 |---|---|
 | **Verify** | Each scene moves the learner measurably closer to answering the Journey's central question. |
-| **Why it matters** | A scene that does not advance the central question is either out of scope or an independent explanation inserted into the Journey. Both are prohibited. See: `03_NARRATIVE_FRAMING §15`. |
-| **Pass criteria** | For every scene, the reviewer can complete the sentence: "After this scene, the learner now knows [X], which brings them closer to understanding [central question] because [reason]." |
-| **Common failures** | A scene explaining RAM internals in a Journey whose central question is "How does a program start?" — where RAM internals are not necessary to answer the question. |
+| **Why it matters** | A scene that does not advance the central question is either out of scope or an independent explanation inserted into the Journey. Both are prohibited. Scenes must exist because the learner needs them to solve an experienced problem, not because the technology exists. Never create scenes whose only purpose is to explain a mechanism. Avoid unnecessary implementation, protocol, or mechanical details that do not improve the learner's understanding. Being technically correct is not sufficient; the explanation must be educationally necessary. See: `03_NARRATIVE_FRAMING §17`. |
+| **Pass criteria** | For every scene, the reviewer can complete the sentence: "After this scene, the learner now knows [X], which brings them closer to understanding [central question] because [reason]." Educational depth matches the educational objective. |
+| **Common failures** | A scene explaining RAM internals in a Journey whose central question is "How does a program start?" — where RAM internals are not necessary to answer the question. Creating a scene solely to detail a protocol structure without narrative driving force. |
 | **Corrective action** | Return to Authoring Workflow Phase 4. Remove or merge the scene, or redefine the scope. |
 
 ---
@@ -295,9 +307,9 @@
 | | |
 |---|---|
 | **Verify** | Every technical term is introduced only after the learner has experienced the phenomenon that makes the term necessary. |
-| **Why it matters** | A term without a prior experience is a label without a referent. It is memorized, not understood. See: `03_NARRATIVE_FRAMING §13`. |
+| **Why it matters** | A term without a prior experience is a label without a referent. It is memorized, not understood. The script must strictly follow the progression: **Question → Problem → Need → Solution → Terminology**. Never reverse this order or introduce terminology simply because it exists. The learner must understand why something is needed before learning what it is called. See: `03_NARRATIVE_FRAMING §13`. |
 | **Pass criteria** | For every technical term introduced in the Journey, the reviewer can point to a specific moment — earlier in the same scene or in a prior scene — where the learner observed the phenomenon the term describes. |
-| **Common failures** | Introducing "Program Counter" as a label on a diagram before showing the CPU needing to track instruction order. Calling it "RAM" before showing the system needing a fast, temporary place to hold a program. |
+| **Common failures** | Introducing "Program Counter" as a label on a diagram before showing the CPU needing to track instruction order. Calling it "RAM" before showing the system needing a fast, temporary place to hold a program. Reversing the pedagogical order by introducing a name and then explaining why it is needed. |
 | **Corrective action** | Return to Authoring Workflow Phase 6. Reposition the term introduction, or return to Phase 5 to add the establishing observation. |
 
 ---
@@ -335,6 +347,18 @@
 | **Pass criteria** | The Journey documentation lists at least three expected misconceptions. For each, the reviewer can identify the specific scene and moment at which the Journey guides the learner toward recognizing why the false intuition fails. |
 | **Common failures** | The Journey shows the CPU executing instructions without addressing the common misconception that the CPU reads directly from the hard drive. |
 | **Corrective action** | Return to Authoring Workflow Phase 5 to add a misconception-resolution beat, then Phase 6 to write the narration. |
+
+---
+
+### 4.8 — Technical Pruning & Educational Stopping Point
+
+| | |
+|---|---|
+| **Verify** | The Chapter does not include unnecessary implementation or protocol details that do not improve understanding. Once the learning objective is achieved, teaching stops. |
+| **Why it matters** | Over-explaining technical details (such as minor protocol options, packet fields, or minor architectural buffers) leads to cognitive fatigue. Technical completeness must never override educational clarity. |
+| **Pass criteria** | Every technical detail, flag, or variable on screen and in narration is directly required to answer the chapter's singular central question. Once the question is answered, the chapter ends. |
+| **Common failures** | Explaining multiple optional TCP flags or packet checksum math in a chapter scoped to "how data travels." Teaching adjacent concepts simply because they are technically related. |
+| **Corrective action** | Return to Authoring Workflow Phase 1 to redefine scope and non-goals, and prune. |
 
 ---
 
@@ -479,6 +503,18 @@
 | **Pass criteria** | Each technical concept has exactly one term. That term is introduced once and used consistently thereafter. No synonym is introduced without explicitly mapping it to the established term. |
 | **Common failures** | Using "instruction," "command," and "operation" interchangeably within the same Journey. |
 | **Corrective action** | Return to Authoring Workflow Phase 6. Standardize all occurrences. |
+
+---
+
+### 6.7 — Anti-Manual Prose Violations
+
+| | |
+|---|---|
+| **Verify** | The narration does not contain forbidden prose patterns that read like technical manuals or checklists. |
+| **Why it matters** | Manual-style text (such as "X is a component that...") breaks the narrative flow and induces a passive reading mode. See: `docs/AUTHORING_WORKFLOW.md Phase 6`. |
+| **Pass criteria** | No line of narration contains the phrases: "X is a component that...", "X is responsible for...", "X performs the function of...", or "The role of X is...". Components introduction must happen purely through actions. |
+| **Common failures** | "The Router is a component that forwards packets." or "The queue is responsible for sorting incoming segments." |
+| **Corrective action** | Return to Authoring Workflow Phase 6 to rewrite the narrative. |
 
 ---
 

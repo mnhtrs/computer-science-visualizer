@@ -1,16 +1,15 @@
-# Cesvi — Chapter Authoring Workflow
+# Cesvi — Chapter Authoring Workflow & Best Practices Guide
 
-**Document type:** Standard Operating Procedure (SOP)
+**Document type:** Standard Operating Procedure (SOP) & Authoring Guide
 **Scope:** All Cesvi educational Journeys
 **Status:** ACTIVE
-**Version:** 1.1.0
-**Effective Date:** 2026-07-20
-**Authority:** Architecture Authority
-**Supersedes:** v1.0.0
+**Version:** 2.0.0
+**Effective Date:** 2026-07-22
+**Authority:** Architecture & Educational QA Authority
 
-> This document defines the mandatory production pipeline for every Cesvi Chapter.
-> It governs *how* a Journey is produced.
-> The *laws* the Journey must satisfy are defined exclusively in the frozen Constitution (`docs/constitution/`).
+> This document defines the mandatory production pipeline and authoring best practices for every Cesvi Chapter.
+> It governs *how* a Journey is produced, how technical content is pruned, and how story-first learning is enforced.
+> The *timeless laws* the Journey must satisfy are defined exclusively in the frozen Constitution (`docs/constitution/`).
 
 ---
 
@@ -38,9 +37,7 @@ Every artifact produced during this workflow must explicitly record:
 
 ## Automatic Continuation Rules
 
-After a phase becomes **Frozen**, the assistant SHALL automatically continue to the next phase without asking the user.
-
-The assistant shall only stop when:
+After a phase becomes **Frozen**, the author/assistant SHALL automatically continue to the next phase without asking the user. The assistant shall only stop when:
 - a review fails,
 - a prerequisite is missing,
 - the chapter reaches the final **Freeze** state,
@@ -48,92 +45,125 @@ The assistant shall only stop when:
 
 ---
 
-## Chapter Lifecycle
+## Chapter Lifecycle & Operational Phases
 
 The lifecycle consists of 9 sequential stages. No stage may be skipped.
 
 ### Phase 1 — Journey Definition
-- **Purpose:** Establish the formal scope, central question, and boundaries of the Chapter before design begins.
+- **Purpose:** Establish the formal scope, central question, and narrative continuity of the Chapter before any design begins.
 - **Required Inputs:** Selected topic, Constitution constraints.
 - **Produced Outputs:** Journey Definition artifact (Scope, Non-goals, Prerequisites, Entry/Exit State, Central Question).
-- **Completion Criteria:** All constraints are documented and bounded.
-- **Frozen State:** The definition is sealed. No scope changes are permitted downstream.
+- **Quality Requirements:**
+  *   **One Central Question:** The chapter must address exactly *one* central educational question. If a concept starts answering another question, it belongs in another chapter.
+  *   **Chapter-to-Chapter Continuity Contract:** The entry state of Chapter $N+1$ must align seamlessly with the endpoint of Chapter $N$. Authors must declare:
+      1. *Upstream State:* The exact physical/visual state of the system at the end of the previous chapter.
+      2. *Contextual Carry-Over:* The exact visual assets, mock URLs, and data payloads that must carry over to preserve continuity.
+      3. *Downstream Launchpad:* How this chapter's final scene sets up the next.
 - **Review Requirements:** Self-verification against Constitution Scope rules.
 
 ### Phase 2 — Pipeline Design
 - **Purpose:** Produce the complete technical pipeline as a sequential list of state changes.
-- **Required Inputs:** Frozen Phase 1 Journey Definition artifact.
+- **Required Inputs:** Frozen Phase 1 Journey Definition.
 - **Produced Outputs:** Technical Pipeline artifact (Numbered sequence of state changes).
-- **Completion Criteria:** Every necessary step to transition from Entry State to Exit State is listed without narrative or animation details.
-- **Frozen State:** The pipeline is sealed as the factual skeleton.
+- **Quality Requirements:** List only the essential, numbered states required to transition from the Entry State to the Exit State.
 - **Review Requirements:** Technical correctness verification.
 
 ### Phase 3 — Pipeline Validation
 - **Purpose:** Verify the pipeline is technically correct, complete, and scope-compliant.
-- **Required Inputs:** Frozen Phase 2 Technical Pipeline artifact.
+- **Required Inputs:** Frozen Phase 2 Technical Pipeline.
 - **Produced Outputs:** Pipeline Validation record artifact.
-- **Completion Criteria:** No missing steps, correct causal ordering, no circular logic, no unclassified black boxes.
-- **Frozen State:** Validation record is sealed.
+- **Quality Requirements:** No missing steps, correct causal ordering, no circular logic, no unclassified black boxes.
 - **Review Requirements:** Review against `01_EDUCATIONAL_PHILOSOPHY` logic constraints.
 
 ### Phase 4 — Story Architecture
 - **Purpose:** Convert the validated pipeline into one continuous Journey with a single protagonist.
-- **Required Inputs:** Frozen Phase 3 Technical Pipeline and Validation artifacts.
+- **Required Inputs:** Frozen Phase 3 Technical Pipeline and Validation.
 - **Produced Outputs:** Story Architecture artifact (Ordered scene list mapping to pipeline steps).
-- **Completion Criteria:** Every pipeline step is covered by a scene; protagonist is continuously traceable; every scene advances the central question.
-- **Frozen State:** Scene sequence is sealed.
+- **Quality Requirements:**
+  *   **The Canonical Learning Rhythm:** Every chapter must structure its learning flow around a recurring, six-stage rhythm:
+      1. *Observe:* The learner first sees the system in action.
+      2. *Focus:* Attention is directed to the specific component or mechanism being studied.
+      3. *Explore:* The learner examines the mechanism's internal behavior.
+      4. *Understand:* The learner can predict the mechanism's behavior.
+      5. *Continue:* The journey proceeds to the next mechanism.
+      6. *Summarize:* The chapter concludes by reinforcing the central question.
+  *   **No Standalone Lessons:** Transitions between scenes must feel inevitable; the learner must always feel they are continuing one continuous journey.
 - **Review Requirements:** Review against `02_VISUAL_LANGUAGE` protagonist continuity rules.
 
 ### Phase 5 — Scene Design
 - **Purpose:** Design the visual and structural specification for every scene before writing narration.
-- **Required Inputs:** Frozen Phase 4 Story Architecture artifact.
+- **Required Inputs:** Frozen Phase 4 Story Architecture.
 - **Produced Outputs:** Scene Design artifact (Visual focus, transitions, protagonist paths, concept readiness per scene).
-- **Completion Criteria:** Every transition has a visible cause; concepts are introduced only after the phenomenon is observed.
-- **Frozen State:** Scene structures are sealed.
+- **Quality Requirements:**
+  *   Every transition must have a visible cause.
+  *   Stable structures must remain spatially stable.
+  *   Orientation preservation must be planned so the camera never disorients the learner.
+  *   Scenes must exist because the learner needs them to solve an experienced problem, not because the technology exists. Never create scenes whose only purpose is to explain a mechanism.
 - **Review Requirements:** Review against `02_VISUAL_LANGUAGE` causality and `03_NARRATIVE_FRAMING` knowledge reveal rules.
 
 ### Phase 6 — Narration
 - **Purpose:** Write the natural human language script for the Journey based entirely on observable events.
-- **Required Inputs:** Frozen Phase 5 Scene Design artifact.
+- **Required Inputs:** Frozen Phase 5 Scene Design.
 - **Produced Outputs:** Narration Script artifact.
-- **Completion Criteria:** Narration explains only what is visible; no checklist or documentation tone; consistent terminology.
-- **Frozen State:** The script is sealed.
+- **Quality Requirements:**
+  *   **The PST Sequence:** Every narration sequence introducing a concept must follow the exact sequence: **Question → Problem → Need → Solution → Terminology**. Never reverse this order, and never introduce terminology simply because it exists.
+  *   **Prohibited Text Patterns (Anti-Manual Rules):** To prevent narration from sounding like dry technical documentation, the following prose patterns are strictly forbidden:
+      *   Starting an explanation with: *"X is a component that..."*, *"X is responsible for..."*, *"X performs the function of..."*, or *"The role of X is..."*.
+      *   Listing a component's attributes, properties, or features as a standalone checklist.
+      *   Explaining what a component "is" before showing it active in the story.
+  *   **Bilingual Technical Lock:** Explanations must use plain, everyday language, but core technical terms (e.g., CPU, RAM, Router, Packets, DOM Tree) must remain locked to their global English terms. Localized terms must be explicitly displayed alongside their English equivalents.
 - **Review Requirements:** Review against `03_NARRATIVE_FRAMING` explanation rules.
 
-### Self Review
+### Phase 7 — Self Review
 - **Purpose:** Perform a holistic self-evaluation of the entire Chapter against all constraints.
 - **Required Inputs:** All Frozen artifacts from Phases 1 through 6.
 - **Produced Outputs:** Self Review Record artifact.
-- **Completion Criteria:** Every review gate (Constitutional, Technical, Story, Cognitive Load) is verified as PASS.
-- **Frozen State:** Self Review is sealed.
-- **Review Requirements:** Must use `CHAPTER_REVIEW_CHECKLIST.md`.
+- **Review Requirements:** Must use `docs/CHAPTER_REVIEW_CHECKLIST.md`.
 
-### Independent Audit
+### Phase 8 — Independent Audit
 - **Purpose:** An external or independent validation of the Chapter to ensure it can be handed off seamlessly.
 - **Required Inputs:** Frozen Self Review Record and all Chapter artifacts.
 - **Produced Outputs:** Independent Audit Record artifact.
-- **Completion Criteria:** Zero unresolved comments, zero constitutional violations, zero technical flaws.
-- **Frozen State:** Audit Record is sealed.
 - **Review Requirements:** Must pass all independent verification checks without exception.
 
-### Freeze
+### Phase 9 — Freeze
 - **Purpose:** Officially seal the Chapter as a production-ready asset.
 - **Required Inputs:** Frozen Independent Audit Record.
-- **Produced Outputs:** Chapter Freeze Declaration artifact.
-- **Completion Criteria:** All previous phases are confirmed Frozen; Chapter is ready for merge.
-- **Frozen State:** The Chapter itself is FROZEN.
-- **Review Requirements:** Final verification of all traceability links and frozen statuses.
+- **Produced Outputs:** Chapter Freeze Declaration.
 
 ---
 
-## Appendix A — Common Failure Modes
+## Educational Quality Best Practices
 
-| Failure | Root Cause | Corrective Phase |
-|---|---|---|
-| Scenes feel like independent slides | Story Architecture did not establish a continuous protagonist path | Phase 4 |
-| Narration sounds like documentation | Phase 6 was written before Phase 5 was complete | Phase 5, then Phase 6 |
-| Technical term introduced before concept is observed | Knowledge Reveal Law not applied during narration | Phase 6 |
-| Scene transition with no visible cause | Phase 5 scene design did not specify Transition Out | Phase 5 |
-| Protagonist disappears between scenes | Phase 4 scene list did not document protagonist entry/exit | Phase 4 |
-| Pipeline step silently merged or dropped | Phase 3 validation was not completed before Phase 4 | Phase 3 |
-| Non-goal content appears in a scene | Scope was not enforced during Phase 5 | Phase 5 |
+### 1. Technical Pruning & The Educational Stopping Point
+*   **The Principle:** Technical completeness must never override educational clarity. Authors must prune technical noise (such as minor protocol options, packet fields, or minor architectural buffers) that do not directly contribute to answering the single central question.
+*   **The Stopping Point:** Once the learning objective of a chapter or beat is achieved, **stop teaching**. Do not add extra details or adjacent concepts simply because they are technically true or related. The success of a chapter is measured by learner retention and confidence, not by technical density.
+
+### 2. Curiosity-Driven Learning
+*   The learner's curiosity must never serve the technology; rather, the technology must serve the learner's curiosity. A component or system layer must only appear on screen at the moment the learner's mental simulation faces a bottleneck and demands a solution.
+
+### 3. Concurrency and Parallelism Visual Weight
+*   In multi-agent systems (like networks or parallel execution), the primary protagonist (the golden spark) must carry 100% of the active attention. Secondary parallel agents must be rendered with faded visual weights (grayed out or transparent) so they illustrate the concept of concurrency without causing cognitive overload.
+
+---
+
+## AI Authoring Guidance (For LLM Agents)
+
+If you are an AI assistant developing a chapter for CESVI, you must adhere to these strict rules to prevent educational drift:
+1.  **Do Not Default to "Textbook" or "Lecture Slide" Writing:** Avoid paragraphs of dry explanation. Your narration must be natural, conversational, and direct the user's attention *only* to what is currently visible on screen.
+2.  **Verify Your Trajectory Before Implementation:** Do not write Canvas rendering code or storyboards until you have established the singular central question (Phase 1) and technical pipeline (Phase 2), and verified them with the user.
+3.  **Respect the Story Continuity:** Ensure that the first scene of your new chapter uses the same mock domain or file names as the previous chapter.
+
+---
+
+## Common Educational Failure Patterns
+
+Reviewers and authors should watch out for these common failure modes:
+
+| Failure Pattern | Root Cause | Symptom | Corrective Action |
+|---|---|---|---|
+| **The "Slide Deck" Effect** | Disconnected scenes, missing protagonist path | The learner feels they are reading independent slides rather than traveling. | Return to Phase 4. Map a continuous protagonist path across all scenes. |
+| **The Jargon Dump** | Terminology introduced before its need is established | The learner is forced to memorize a term (e.g. "TCP", "Router") without understanding why it exists. | Return to Phase 6. Apply the PST sequence: establish the problem first. |
+| **The Academic Bloat** | Trying to teach the entire technical spec | Narration becomes dense with minor protocol options, confusing absolute beginners. | Return to Phase 1. Add the distracting concepts to the "Non-Goals" list and prune. |
+| **The Ghost Handoff** | Chapter boundaries are disjointed | The learner feels they have started a completely different lesson; previous context is lost. | Return to Phase 1. Enforce the Continuity Contract. |
+| **The Active HUD Noise** | UI dashboards and data tables animate simultaneously with the spark | The learner's attention is split, leading to cognitive overload. | Return to Phase 5. Dim auxiliary UI until the spark has completed its travel. |

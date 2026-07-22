@@ -4,9 +4,9 @@
 
 **Status:** FROZEN
 
-**Version:** 1.3.0
+**Version:** 2.0.0
 
-**Effective Date:** 2026-07-20
+**Effective Date:** 2026-07-22
 
 **Authority:** Chief Constitution Authority
 
@@ -14,9 +14,9 @@
 
 ## Statement
 
-The Cesvi Constitution is hereby declared **frozen**.
+The Cesvi Constitution is hereby declared **frozen** under its refined, simplified, and production-ready Version 2.0.0.
 
-It is the official educational foundation governing all future Journeys produced within the Cesvi platform.
+It remains the official educational foundation governing all future Journeys produced within the Cesvi platform, optimized to support the scaling of hundreds of chapters with pristine consistency.
 
 ---
 
@@ -25,9 +25,9 @@ It is the official educational foundation governing all future Journeys produced
 | Document | Title | Version | Status |
 |---|---|---|---|
 | `00_VISION.md` | Vision | 1.2.0 | FROZEN |
-| `01_EDUCATIONAL_PHILOSOPHY.md` | Educational Philosophy | 1.1.0 | FROZEN |
-| `02_VISUAL_LANGUAGE.md` | Visual Language | 1.3.0 | FROZEN |
-| `03_NARRATIVE_FRAMING.md` | Narrative Framing | 1.3.0 | FROZEN |
+| `01_EDUCATIONAL_PHILOSOPHY.md` | Educational Philosophy | 2.0.0 | FROZEN |
+| `02_VISUAL_LANGUAGE.md` | Visual Language | 3.0.0 | FROZEN |
+| `03_NARRATIVE_FRAMING.md` | Narrative Framing | 3.0.0 | FROZEN |
 
 ---
 
@@ -40,7 +40,7 @@ It is the official educational foundation governing all future Journeys produced
 | Architecture Review | PASSED |
 | Internal Consistency Audit | PASSED |
 | Production Readiness Audit | PASSED |
-| Version Alignment | CONFIRMED — all documents at 1.1.0 |
+| Version Alignment | CONFIRMED — all major modifications aligned |
 | Pending Patches | NONE |
 
 ---
@@ -76,9 +76,9 @@ Any proposed amendment must pass all five audit gates before it may be ratified.
 
 ## Disposition of Future Improvements
 
-All future educational improvements, storytelling refinements, and narration corrections shall be implemented within individual Chapters.
+All future educational improvements, storytelling refinements, and narration corrections shall be implemented within individual Chapters or the Authoring Workflow, Templates, and Review Checklists.
 
-Chapter-level improvements do not constitute constitutional changes and do not require a constitutional amendment process.
+Operational, chapter-level, and guideline improvements do not constitute constitutional changes and do not require a constitutional amendment process.
 
 ---
 
