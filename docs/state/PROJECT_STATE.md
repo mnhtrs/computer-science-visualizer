@@ -1,6 +1,6 @@
 ---
 schema_version: "1.1"
-project_version: "0.3.0"
+project_version: "0.4.0"
 current_phase: "Journey Production"
 repository_status: "Green"
 constitution_version: "1.3.0"
@@ -52,6 +52,12 @@ completed_work:
   - "Viewer made chapter-agnostic (DESIGN.md Phase 4 bridge completed)"
   - "Smoke verification tooling added (scripts/smoke-chapters.ts, npm run smoke)"
   - "Layout snapshot tooling added (scripts/layout-snapshots.ts, dev-only render audit)"
+  - "Chapter 03 completely redesigned from a blank page & released — chapter-03-across-the-internet ('How does data travel from Server to Browser?'); full 9-phase SOP + independent audit PASS; continuity contract with Ch-02 satisfied in both directions; renders as its own code-split chunk"
+  - "Chapter 03 UI/layout revision v1.0.2 (docs/.../10_): owner's live-app feedback — home cable rerouted to drop OUTSIDE the Browser window; sidebar narrowed (360->300) + narration downsized (clamp 20-27px -> 14-16px); canvas content enlarged (Ch-3-only router-web compression 1900->1740 + cameraPad + chapter-local size bumps); shared renderers untouched -> Ch-01/Ch-02 byte-stable (smoke 59.9s/71.9s)"
+  - "Chapter 03 UI/layout revision v1.0.3 (docs/.../11_): incoming cable made a DEDICATED route that loops below the case and plugs into the NIC only (internal bus restored to NIC->GPU, no longer misread as 'through GPU/CPU/RAM'); routers shrunk 124->104 and R1 shifted 940->975 so it clears the Desktop case border"
+  - "Chapter 03 layout-system refactor v1.0.4 (docs/.../12_): owner audit 'no hardcoded coords' -> introduced scenes/metrics.ts (named primitives, R01-R19) + scenes/layout.ts (derived interiors/tray/fan/merge/cuts); bbox + home-drop route + R1 now DERIVED; renderers rewritten to consume only named/derived values + measureText pills (R18); inbox tray derived from the NIC so it hugs the NIC by rule; AABB proof table; Layout Debt 0 + no systemic debt; Ch-01/Ch-02 byte-stable"
+  - "Former chapter-03-click-to-action retired (docs/.../chapter-03-click-to-action/RETIRED.md); its broken code stub (missing thumbnail import) removed -> green build restored"
+  - "scripts/smoke-chapters.ts authored this round + esbuild recorded in devDependencies (the documented npm run smoke tooling, previously referenced but absent, now functional: integrity + playthroughs + 14 deterministic QA frames)"
 
 documents_in_progress: []
 frozen_documents:
@@ -96,11 +102,13 @@ frozen_documents:
   - "/docs/viewer/11_VIEWER_SHELL_REVISION_v1.1.10.md (applied amendment — VIEWER SHELL v1.1.10, partially superseded by 12_ on freeze applicability: groups get none (F95); F93 parking + the 650 ms ceremony + deep 400 ms freeze stand)"
   - "/docs/viewer/12_VIEWER_SHELL_REVISION_v1.1.11.md (applied amendment — VIEWER SHELL v1.1.11, current for the shared viewer shell: F95 freeze deep-scenes-only; ceremony over the living scene for beat groups; diagnosis script probe-ch2-entry.ts)"
   - "/docs/viewer/08_VIEWER_SHELL_REVISION_v1.1.7.md (applied amendment — VIEWER SHELL v1.1.7, current for the shared viewer shell: F90 shake at 0 ms + canvasBlink brightness pulse during the tag drop)"
+  - "/docs/chapters/chapter-03-across-the-internet/ (01-09 FROZEN + 10 UI/layout revision v1.0.2) — the CURRENT Chapter 03"
+  - "/docs/chapters/chapter-03-click-to-action/RETIRED.md (retirement notice; the 01_/02_ beside it are historical-only, no authority)"
 
-next_allowed_action: "Chapter 03 production (per owner roadmap) — or Chapter-level improvements to Chapters 01/02"
+next_allowed_action: "Chapter 04 production (per owner roadmap) — or chapter-level improvements to Chapters 01/02/03"
 blocked_by: []
 forbidden_actions:
-  - "Draft Chapter 03+ content without a new owner directive"
+  - "Redesign Chapter 03 again without a new owner directive (the across-the-internet design is current; the retired click-to-action storyboard must not be revived)"
   - "Modify frozen artifacts outside the Amendment Process"
   - "Reopen Chapter 02's frozen design (chapter-level corrections only)"
 ---

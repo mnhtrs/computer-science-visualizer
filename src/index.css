@@ -20,7 +20,7 @@ body {
 /* ===== two-panel + bottom timeline layout ===== */
 .app {
   display: grid;
-  grid-template-columns: 1fr 360px;
+  grid-template-columns: 1fr 300px;
   grid-template-rows: 1fr auto;
   grid-template-areas:
     'stage panel'
@@ -213,10 +213,10 @@ body {
   grid-area: panel;
   background: linear-gradient(180deg, rgba(20, 26, 54, 0.6), rgba(10, 14, 34, 0.85));
   border-left: 1px solid rgba(150, 170, 255, 0.14);
-  padding: 22px 24px;
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 13px;
   overflow-y: auto;
 }
 .panel-head {
@@ -260,7 +260,7 @@ body {
   flex-wrap: wrap;
 }
 .chapter {
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 1.35;
   color: #fff;
@@ -297,9 +297,9 @@ body {
   white-space: nowrap;
 }
 .narration {
-  font-size: clamp(20px, 2.4vw, 27px);
-  font-weight: 600;
-  line-height: 1.4;
+  font-size: clamp(14px, 1.3vw, 16px);
+  font-weight: 500;
+  line-height: 1.55;
   color: #fff;
   animation: capIn 0.45s ease both;
 }
@@ -315,7 +315,7 @@ body {
 }
 .gloss {
   margin-top: 4px;
-  padding: 14px 16px;
+  padding: 12px 14px;
   background: rgba(255, 255, 255, 0.05);
   border-left: 3px solid var(--accent, #6b8cff);
   border-radius: 10px;
@@ -331,7 +331,7 @@ body {
   color: var(--accent, #6b8cff);
 }
 .gloss-text {
-  font-size: 15px;
+  font-size: 13px;
   line-height: 1.5;
   color: #c6ccea;
 }

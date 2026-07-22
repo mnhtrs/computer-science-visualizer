@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "smoke": "esbuild scripts/smoke-chapters.ts --bundle --format=esm --loader:.jpg=dataurl --outfile=node_modules/.tmp-smoke.mjs --platform=node && node node_modules/.tmp-smoke.mjs"
+    "smoke": "esbuild scripts/smoke-chapters.ts --bundle --format=esm --loader:.jpg=dataurl --packages=external --outfile=node_modules/.tmp-smoke.mjs --platform=node && node node_modules/.tmp-smoke.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",
@@ -22,6 +22,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "esbuild": "^0.28.1",
     "typescript": "^5.5.4",
     "vite": "^8.1.5"
   }
