@@ -132,6 +132,7 @@ A proposal is complete only if it is:
 - ✓ Visually explainable
 - ✓ Transferable to novel domains
 - ✓ Maintainable over years
+- ✓ **Documentation-evolved:** the Documentation Evolution Protocol (`docs/protocols/DOCUMENTATION_EVOLUTION_PROTOCOL.md`) has been run for the task and its mandatory report produced (a justified *Rejected* outcome satisfies this).
 
 If any gate fails, the proposal is incomplete.
 
@@ -143,8 +144,9 @@ Do not directly modify the Constitution, Governance, or this Charter unless expl
 ## Boot Order
 Every AI agent must read documents in this exact order before acting:
 1. `docs/protocols/AI_CHARTER.md` (this file)
-2. `docs/constitution/00_VISION.md`
-3. `docs/constitution/01_EDUCATIONAL_PHILOSOPHY.md`
-4. `docs/architecture/DESIGN.md`
-5. `docs/state/PROJECT_STATE.md`
-6. Proceed only after reading the above.
+2. `docs/protocols/DOCUMENTATION_EVOLUTION_PROTOCOL.md` (how CESVI learns from production; run after every task — see §1 of that file)
+3. `docs/constitution/00_VISION.md`
+4. `docs/constitution/01_EDUCATIONAL_PHILOSOPHY.md`
+5. `docs/architecture/DESIGN.md`
+6. `docs/state/PROJECT_STATE.md`
+7. Proceed only after reading the above.

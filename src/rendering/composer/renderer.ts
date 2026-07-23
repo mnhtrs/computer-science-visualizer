@@ -12,7 +12,6 @@
 import type { Chapter } from '../../chapter-loader/types'
 import type { EntityRenderer } from '../types'
 import type { PresentationState } from '../types'
-import { fit } from '../primitives/canvas-utils'
 import { drawBackground, drawVignette } from '../primitives/background'
 import { renderScene } from '../scenes/scene-renderer'
 
@@ -26,11 +25,13 @@ export function render(
   ctx.setTransform(s.dpr, 0, 0, s.dpr, 0, 0)
   drawBackground(ctx, s.W, s.H, s.t)
 
-  // 2. scene (world-space camera, derived from the chapter's active scene)
-  const sc = chapter.scenes.find((x) => x.id === s.scene) ?? chapter.scenes[0]
-  const pad = sc?.cameraPad ?? 0.9
-  const f = fit(sc?.bbox ?? { minX: 0, maxX: s.W, minY: 0, maxY: s.H }, s.W, s.H, pad)
-  ctx.setTransform(s.dpr * f.zoom, 0, 0, s.dpr * f.zoom, s.dpr * f.ox, s.dpr * f.oy)
+  // 2. scene (world-space camera). The transform is owned by the engine camera
+  //    (T_user ∘ T_fit, CANVAS_NAVIGATION §9); the composer only consumes it, so
+  //    pan/zoom live exactly once in the platform and chapters never supply them.
+  ctx.setTransform(
+    s.dpr * s.camera.zoomTotal, 0, 0, s.dpr * s.camera.zoomTotal,
+    s.dpr * s.camera.offX, s.dpr * s.camera.offY,
+  )
   renderScene(ctx, s, chapter, entityRegistry)
 
   // 3. post (screen-space)

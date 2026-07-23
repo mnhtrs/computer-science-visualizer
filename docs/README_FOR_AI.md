@@ -7,6 +7,8 @@ Read the following documents in this exact sequence before taking any action:
 **Step 1 — Operating Law**
 Read `docs/protocols/AI_CHARTER.md`.
 This defines how you must behave. All subsequent work is governed by it.
+Read `docs/protocols/DOCUMENTATION_EVOLUTION_PROTOCOL.md`.
+This defines how CESVI learns from production; you MUST run it after every task and emit its mandatory report (it is a quality gate, not optional reading).
 
 **Step 2 — Constitutional Law**
 Read `docs/constitution/00_VISION.md`.

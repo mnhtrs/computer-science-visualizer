@@ -25,6 +25,10 @@ export interface PresentationState {
   W: number
   H: number
   dpr: number
+  /** Composed camera transform (T_user ∘ T_fit), written by the engine each frame
+   *  (Global Canvas Navigation). The renderer only reads the composed values; it
+   *  never owns pan/zoom. See docs/architecture/CANVAS_NAVIGATION.md §9. */
+  camera: { zoomTotal: number; offX: number; offY: number }
 }
 
 /** Minimal shape every entity renderer needs from the thing it draws. */

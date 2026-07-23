@@ -7,6 +7,7 @@ import type { Chapter, Vec2 } from '../chapter-loader/types'
 import type { PresentationState } from './state'
 import { clamp, lerp, easeInOutCubic } from '../shared/math'
 import { polylinePoint } from '../shared/geometry'
+import { fit } from '../rendering/primitives/canvas-utils'
 import { stageAt, stageEndpoints, nodePos } from './cycle'
 
 /** Pick the protagonist's path for the current scene. */
@@ -216,6 +217,25 @@ export function update(s: PresentationState, dt: number, chapter: Chapter) {
   s.sparkScale = sparkScale
   s.looping = looping
   s.programDone = s.beatIndex >= beats.length - 1
+
+  // ---- camera (Global Canvas Navigation): recompute the auto-fit for the
+  //      CURRENT scene every frame, reset the user view on scene change (§8),
+  //      then compose T_user ∘ T_fit into camera.zoomTotal/offX/offY (§9). ----
+  const cam = s.camera
+  const sc = chapter.scenes.find((x) => x.id === s.scene) ?? chapter.scenes[0]
+  const f = fit(sc?.bbox ?? { minX: 0, maxX: s.W, minY: 0, maxY: s.H }, s.W, s.H, sc?.cameraPad ?? 0.9)
+  cam.baseZoom = f.zoom
+  cam.baseOx = f.ox
+  cam.baseOy = f.oy
+  if (cam.sceneToken !== s.scene) {
+    cam.sceneToken = s.scene
+    cam.panX = 0
+    cam.panY = 0
+    cam.zoom = 1
+  }
+  cam.zoomTotal = cam.baseZoom * cam.zoom
+  cam.offX = cam.baseOx + cam.panX
+  cam.offY = cam.baseOy + cam.panY
 
   if (sparkScale > 0.05 && s.fading !== 'out') {
     s.trail.push({ x: sparkPos.x, y: sparkPos.y })

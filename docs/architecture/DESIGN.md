@@ -710,6 +710,21 @@ requires writing its `render` inside its own folder — the composer, engine
 core, Viewer, and controls are untouched. This is the concrete mechanism behind
 "zero code changes outside `content/`."
 
+**Convention for chapter-owned canvas geometry (additive; clarifies §14.4, does
+not change the contract):** the contract says *what* a chapter draws
+(`render`/entities/infrastructure) but not *how its coordinates are organised*.
+Production (Ch-02's `12_LAYOUT_REVIEW.md`, Ch-03's `12_LAYOUT_REVISION_v1.0.4.md`)
+proved the required organisation, now binding via the Authoring Workflow Phase 5
+Layout Derivation Law and Checklist Gate 5.6: a chapter with canvas geometry ships
+a pure **metrics** module (named primitives — one spacing scale, one type scale,
+one box spec per element) and a **derived-layout** module (container interiors,
+repeated rows, badges/pills computed from primitives + rects + `measureText`); the
+bbox and connector routes are derived from content + a declared clip inset; the
+draw functions consume only named values / formulas of specs / measured text,
+never inline pixel literals. This keeps every chapter's layout auditable and
+reusable (Ch-37 inherits Ch-03's method without reading Ch-03), and keeps Ch-01/02
+byte-stable when a later chapter changes its own geometry.
+
 ### 14.5 Phase 1 scope (frozen — what is implemented now)
 
 Phase 1 builds **only the routing shell**:
@@ -773,3 +788,27 @@ renderers. Phase 3 extracts the renderers into `rendering/parts/*` keyed by
 `EntityDescription.kind`, and Phase 4 makes the Viewer chapter-agnostic via
 `registry.loadStory()`. The declarative `chapter.scenes` emitted today are the
 input the Phase 3 renderer will consume — so the contract is already in place.
+
+---
+
+## 16. Normative viewer-capability specifications (FROZEN layer)
+
+`DESIGN.md` defines the **chapter contract and the app shell**. A separate, frozen
+layer defines **mandatory viewer/runtime behaviours that are orthogonal to any chapter's
+content** — capabilities the Viewer supplies uniformly so chapters neither implement nor
+override them. Each is a self-contained, RFC-style normative spec (MUST/SHALL) living in
+this folder, registered here so it is discovered on the normal read path rather than
+trapped in a chapter's history:
+
+- **`CANVAS_NAVIGATION.md`** (FROZEN v1.0.0) — the mandatory pan / zoom / reset viewport
+  model, independent of the storyboard. *Compliance note:* the spec is frozen and binding;
+  the current viewer's fixed auto-fit camera is recorded inside it as inherited platform
+  debt (same class as `01 §4` State-Predictive Verification), to be closed by a single
+  viewer implementation, never per chapter.
+
+New mandatory viewer capabilities follow this pattern: write the normative spec here,
+register it in this list and in `protocols/AI_CHARTER.md`'s boot order if it changes AI
+behaviour, and cite it from `CHAPTER_REVIEW_CHECKLIST.md` so compliance is checked for every
+chapter. This layer exists because production showed that cross-cutting viewer behaviour,
+left implicit, drifts — freezing it as a standard is the fix (see the Documentation
+Evolution Report of the chapter that surfaced it).

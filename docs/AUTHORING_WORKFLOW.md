@@ -99,7 +99,10 @@ The lifecycle consists of 9 sequential stages. No stage may be skipped.
   *   Stable structures must remain spatially stable.
   *   Orientation preservation must be planned so the camera never disorients the learner.
   *   Scenes must exist because the learner needs them to solve an experienced problem, not because the technology exists. Never create scenes whose only purpose is to explain a mechanism.
-- **Review Requirements:** Review against `02_VISUAL_LANGUAGE` causality and `03_NARRATIVE_FRAMING` knowledge reveal rules.
+  *   **Layout Derivation Law (binding; generalizes Ch-02's `12_LAYOUT_REVIEW.md`).** Every drawable coordinate of the chapter shall live in a named layout-primitive module (one spacing scale, one type scale, one box spec per element — each tagged with the rule it satisfies) plus a derived-layout module that computes container interiors, repeated rows, badges and pills from those primitives + container rects + `measureText`. Renderer code shall contain **no bare layout literal** (a grep for inline pixel arithmetic in draw bodies must return only named references, formulas of specs, loop indices, alpha/clamp bounds and colours). The bbox and any connector route are derived from content + a declared clip inset, never written as a literal rectangle. Positioning that must relate to another object (an inbox to its door, a label to its box, a node clearing a border) shall be *derived from that object*, so the relation holds by construction. Badges/pills are sized as `measured text + padding` (the HTML box model), never by hope.
+  *   **Measure-first + proof table (binding).** Before a scene is approved, every readable clearance (text↔edge, text↔text, container↔clip, connector↔boundary) shall be proven by arithmetic in an AABB-style proof table computed from the live constants (Ch-02 method), holding `02 §2.2` / R02 (≥8 world units breathing) / R13 (≥12 from clip) / R04 (measured-fit) / R10 (connectors terminate at boundaries). Layout changes require re-rendering ≥3 samples per affected beat and inspecting them (R16); "it looks fine" is not evidence.
+  *   **Connectivity-topology review (binding; `02 §2.1`).** List every connection the scene draws; for each pair that is physically/logically distinct in the real system, confirm they are distinct drawn paths. An external link entering a machine must not be drawn along an internal bus.
+- **Review Requirements:** Review against `02_VISUAL_LANGUAGE` causality and `03_NARRATIVE_FRAMING` knowledge reveal rules, **and** against the Layout Constitution R01–R19 + R18/R19 (recorded in Ch-02's `12_LAYOUT_REVIEW.md` §4, which this phase makes a binding gate for *every* chapter).
 
 ### Phase 6 — Narration
 - **Purpose:** Write the natural human language script for the Journey based entirely on observable events.
@@ -119,6 +122,7 @@ The lifecycle consists of 9 sequential stages. No stage may be skipped.
 - **Required Inputs:** All Frozen artifacts from Phases 1 through 6.
 - **Produced Outputs:** Self Review Record artifact.
 - **Review Requirements:** Must use `docs/CHAPTER_REVIEW_CHECKLIST.md`.
+- **Normative viewer-capability compliance (binding; `DESIGN.md §16`):** the self-review **MUST** confirm the chapter neither implements nor overrides any frozen viewer/runtime capability (today: global canvas navigation — `CANVAS_NAVIGATION.md`), because such capabilities are supplied by the viewer, not the chapter. If the runtime does not yet satisfy a listed spec, the Self Review **MUST** disclose it as inherited platform debt (same class as `01 §4`), per Checklist Gate 7.5. This puts the contract on the *authoring* path, not only at the review gate — a chapter that silently assumed a fixed camera, or shipped a private pan/zoom, fails here.
 
 ### Phase 8 — Independent Audit
 - **Purpose:** An external or independent validation of the Chapter to ensure it can be handed off seamlessly.

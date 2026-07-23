@@ -5,13 +5,11 @@
 // Zero behavior changes — this is a direct extraction of ViewerCore logic.
 
 import { useEffect, useRef, useState } from 'react'
-import type { MouseEvent as ReactMouseEvent } from 'react'
 import type { Chapter, LocalizedText, ExecutionState } from '../chapter-loader/types'
 import type { EntityRenderer } from '../rendering/types'
-import { createPresentationState, update, indexOfEffect, type PresentationState, type Phase } from '../engine'
+import { createPresentationState, update, indexOfEffect, NAV, type PresentationState, type Phase } from '../engine'
 import { render } from '../rendering/composer/renderer'
 import { sharedEntityRenderers } from '../rendering/parts/registry'
-import { fit } from '../rendering/primitives/canvas-utils'
 import { clamp } from '../shared/math'
 
 const EMPTY_TEXT: LocalizedText = { en: '', vi: '' }
@@ -64,10 +62,14 @@ export interface ViewerEngineState {
   exitDeep: () => void
   currentStep: () => number
   jumpToStep: (step: number) => void
+  resetView: () => void
 
-  // Mouse handlers
-  onClick: (e: ReactMouseEvent<HTMLCanvasElement>) => void
-  onMouseMove: (e: ReactMouseEvent<HTMLCanvasElement>) => void
+  // Canvas navigation (Global Canvas Navigation contract; owned by the viewer,
+  // not by any chapter). Pointer model + wheel are wired in the RAF effect.
+  cameraActive: boolean
+  onPointerDown: (e: React.PointerEvent<HTMLCanvasElement>) => void
+  onPointerMove: (e: React.PointerEvent<HTMLCanvasElement>) => void
+  onPointerUp: (e: React.PointerEvent<HTMLCanvasElement>) => void
 
   // Language handler
   setLang: (lang: 'en' | 'vi') => void
@@ -90,6 +92,7 @@ export function useViewerEngine(chapter: Chapter, controlsLeft?: React.ReactNode
   const [lang, setLang] = useState<'en' | 'vi'>('en')
   const [execTick, setExecTick] = useState(0)
   const [lineBeat, setLineBeat] = useState(0)
+  const [cameraActive, setCameraActive] = useState(false)
   const phaseRef = useRef<Phase>('waiting')
   const beatRef = useRef(0)
   const sceneRef = useRef(homeScene)
@@ -225,6 +228,30 @@ export function useViewerEngine(chapter: Chapter, controlsLeft?: React.ReactNode
       else if (e.code === 'ArrowLeft') stepPrev()
     }
     window.addEventListener('keydown', onKey)
+    // §4 cursor-anchored zoom (passive:false so we can preventDefault the scroll)
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault()
+      const s = S.current
+      const cam = s.camera
+      const rect = canvas.getBoundingClientRect()
+      const mx = e.clientX - rect.left
+      const my = e.clientY - rect.top
+      const wx = (mx - cam.offX) / cam.zoomTotal
+      const wy = (my - cam.offY) / cam.zoomTotal
+      const newZoom = clamp(cam.zoom * Math.exp(-e.deltaY * NAV.WHEEL_FACTOR), NAV.ZOOM_MIN, NAV.ZOOM_MAX)
+      const newTotal = cam.baseZoom * newZoom
+      cam.panX = mx - wx * newTotal - cam.baseOx
+      cam.panY = my - wy * newTotal - cam.baseOy
+      cam.zoom = newZoom
+    }
+    canvas.addEventListener('wheel', onWheel, { passive: false })
+    // §6 double-click empty canvas resets the view
+    const onDbl = (e: MouseEvent) => {
+      const s = S.current
+      const onZone = !!chapter.hitZones?.some((z) => z.hits(toWorld(e.clientX, e.clientY, canvas)))
+      if (!onZone) resetView()
+    }
+    canvas.addEventListener('dblclick', onDbl)
     let raf = 0
     const frame = (ts: number) => {
       const s = S.current
@@ -240,6 +267,9 @@ export function useViewerEngine(chapter: Chapter, controlsLeft?: React.ReactNode
       update(s, dt, chapter)
       render(ctx, s, chapter, entityRegistry)
       sync(s.phase, s.beatIndex, s.scene)
+      // drag cursor feedback (§6): grabbing while panning empty canvas
+      if (canvas) canvas.style.cursor = drag.current.active && drag.current.moved && !drag.current.onZone ? 'grabbing' : canvas.style.cursor
+      setCameraActive(s.camera.zoom !== 1 || s.camera.panX !== 0 || s.camera.panY !== 0)
       if (awaitGreenRef.current && s.phase === 'playing' && s.fading === 'none') {
         const deepFire = !!(deepScene && prog && s.scene === deepScene)
         let groupFire = false
@@ -261,31 +291,58 @@ export function useViewerEngine(chapter: Chapter, controlsLeft?: React.ReactNode
     }
     raf = requestAnimationFrame(frame)
     return () => {
-      cancelAnimationFrame(raf); ro.disconnect(); window.removeEventListener('resize', resize); window.removeEventListener('keydown', onKey)
+      cancelAnimationFrame(raf); ro.disconnect()
+      window.removeEventListener('resize', resize); window.removeEventListener('keydown', onKey)
+      canvas.removeEventListener('wheel', onWheel); canvas.removeEventListener('dblclick', onDbl)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chapter])
 
-  // ---- mouse handlers ----
-  const toWorld = (e: ReactMouseEvent<HTMLCanvasElement>) => {
+  // ---- canvas navigation (Global Canvas Navigation; viewer-owned, §2–§8) ----
+  const drag = useRef({ active: false, onZone: false, sx: 0, sy: 0, ox: 0, oy: 0, moved: false })
+  // §7: invert the FULL composed transform, so hit-tests are correct at every
+  // pan/zoom (this also fixes the pre-migration bug where toWorld used scenes[0]
+  // regardless of the active scene).
+  const toWorld = (clientX: number, clientY: number, el: HTMLElement) => {
     const s = S.current
-    const rect = e.currentTarget.getBoundingClientRect()
-    const sc = chapter.scenes[0]
-    const f = fit(sc.bbox, s.W, s.H, sc.cameraPad ?? 0.9)
-    return { x: (e.clientX - rect.left - f.ox) / f.zoom, y: (e.clientY - rect.top - f.oy) / f.zoom }
+    const rect = el.getBoundingClientRect()
+    const cam = s.camera
+    return {
+      x: (clientX - rect.left - cam.offX) / cam.zoomTotal,
+      y: (clientY - rect.top - cam.offY) / cam.zoomTotal,
+    }
   }
-  const onClick = (e: ReactMouseEvent<HTMLCanvasElement>) => {
+  const onPointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
     const s = S.current
-    if (s.phase !== 'waiting') return
-    const w = toWorld(e)
-    if (chapter.hitZones?.some((z) => z.hits(w))) start()
+    ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+    const onZone = !!chapter.hitZones?.some((z) => z.hits(toWorld(e.clientX, e.clientY, e.currentTarget)))
+    drag.current = {
+      active: true, onZone, sx: e.clientX, sy: e.clientY,
+      ox: s.camera.panX, oy: s.camera.panY, moved: false,
+    }
   }
-  const onMouseMove = (e: ReactMouseEvent<HTMLCanvasElement>) => {
+  const onPointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
     const s = S.current
-    if (s.phase !== 'waiting') { e.currentTarget.style.cursor = 'default'; return }
-    const w = toWorld(e)
-    e.currentTarget.style.cursor = chapter.hitZones?.some((z) => z.hits(w)) ? 'pointer' : 'default'
+    const d = drag.current
+    if (d.active) {
+      const dx = e.clientX - d.sx
+      const dy = e.clientY - d.sy
+      if (!d.moved && Math.hypot(dx, dy) > NAV.CLICK_DRAG_PX) d.moved = true
+      if (d.moved && !d.onZone) { s.camera.panX = d.ox + dx; s.camera.panY = d.oy + dy } // §3 pan
+      return
+    }
+    // hover cursor: grab on empty canvas, pointer on an interactive object (§6)
+    const onZone = !!chapter.hitZones?.some((z) => z.hits(toWorld(e.clientX, e.clientY, e.currentTarget)))
+    e.currentTarget.style.cursor = onZone ? 'pointer' : 'grab'
   }
+  const onPointerUp = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    const s = S.current
+    const d = drag.current
+    d.active = false
+    ;(e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId)
+    if (!d.moved && d.onZone && s.phase === 'waiting') start() // §6: click-on-zone
+  }
+  const resetView = () => { const c = S.current.camera; c.panX = 0; c.panY = 0; c.zoom = 1 } // §5
 
   // ---- narration ----
   const activePart = phase === 'waiting' || phase === 'done' ? null : beats[beat]?.active ?? null
@@ -382,7 +439,7 @@ export function useViewerEngine(chapter: Chapter, controlsLeft?: React.ReactNode
     nav, canEdit, deepScene, totalSteps, homeScene, ui, runI, prog,
     beatsLength: beats.length,
     start, togglePause, jumpTo, stepPrev, stepNext, exitDeep, currentStep, jumpToStep,
-    onClick, onMouseMove,
+    resetView, cameraActive, onPointerDown, onPointerMove, onPointerUp,
     setLang: setLangHandler,
     onIntroAnimEnd,
   }

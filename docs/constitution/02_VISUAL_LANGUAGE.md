@@ -18,6 +18,9 @@ Visual representation exists solely to reveal reality. Its purpose is not decora
 # 2. Structural Isomorphism
 Every visual representation shall preserve the structural behavior of the system it represents. A learner must be capable of inferring the underlying mechanism through observation alone. Visual representations shall never introduce structures, behaviors, or relationships that do not exist in the represented system.
 
+*   **2.1. Connection Identity (corollary):** Two connections that are physically or logically distinct in the represented system (e.g. an external network link vs. an internal system bus; a control path vs. a data path) shall be rendered as visually distinct paths. Merging distinct connections into one drawn line is forbidden, because it makes the learner infer a shared conduit that does not exist — a structural lie. Every connection's endpoints must terminate at the boundary of the component it connects (`§14` transition causality applied to structure), never inside it and never short.
+*   **2.2. Derivable Geometry (corollary):** Spatial stability (`§6`) is only auditable when positions are *derived*, not eyeballed. Every drawn coordinate shall be expressible as a named layout primitive or a function of a container rectangle and measured text (see the Layout Derivation Law in `AUTHORING_WORKFLOW.md` Phase 5). A coordinate that exists only as an inline literal cannot be proven stable, cannot be proven clear of its neighbours, and cannot survive a future chapter reusing the pattern — so it is treated as a defect, not a style choice.
+
 # 3. Representation Before Symbolism
 Concrete mechanisms shall always be represented before symbolic notation. Whenever direct observation of a mechanism is possible, symbolic representations must not replace it. Abstraction may be introduced only after the learner has observed the underlying process.
 

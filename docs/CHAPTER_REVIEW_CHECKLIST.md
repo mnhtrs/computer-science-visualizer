@@ -428,6 +428,30 @@
 
 ---
 
+### 5.6 — Layout System Exists & Renderers Own No Geometry
+
+| | |
+|---|---|
+| **Verify** | The chapter's drawable geometry lives in a named-primitive module + a derived-layout module (Authoring Workflow Phase 5, Layout Derivation Law); renderer/draw code contains no bare layout literal; the bbox and connector routes are derived from content + a declared clip inset; an AABB proof table exists, computed from the live constants, proving every readable clearance (R02/R04/R13/R10) and the R01–R19 + R18/R19 sweep; ≥3 samples per affected beat were re-rendered after the last layout change (R16). |
+| **Why it matters** | Inline eyeballed coordinates cannot be proven stable, clear, or reusable — they are the single most recurring layout defect (Ch-02 discovered and fixed this as L-01…L-15; Ch-03 repeated it until audited). A chapter that passes only by eye will fail the moment a future chapter reuses the pattern or a font metric drifts. This gate turns Ch-02's hard-won Layout Constitution into a *binding* gate for every chapter, so the knowledge is no longer trapped in Ch-02's history. See `02_VISUAL_LANGUAGE §2.2`. |
+| **Pass criteria** | (a) A named-primitive module and a derived-layout module exist (or the chapter provably has no canvas geometry). (b) A grep for inline pixel arithmetic in draw bodies returns only named references / formulas of specs / loop indices / alpha-clamp bounds / colours. (c) The proof table has 0 open rows and every value in it is a named constant or a formula, never a bare literal. (d) Pills/badges are sized from `measureText + padding`. |
+| **Common failures** | Renderer bodies full of `pos.x - w/2 + 13`, `y + 22`, `W.x + 26`; bbox written as a literal `{…}`; an inbox/label/node placed at a hand-tuned coordinate instead of derived from the object it relates to; a pill width guessed rather than measured. |
+| **Corrective action** | Return to Authoring Workflow Phase 5; introduce the metrics + derived-layout modules and refactor the renderers to consume them; produce the proof table. |
+
+---
+
+### 5.7 — Distinct Connections Rendered Distinctly (Connection Identity)
+
+| | |
+|---|---|
+| **Verify** | Every connection the scene draws was listed; each pair that is physically/logically distinct in the real system is a visually distinct path; connectors terminate at component boundaries (R10); no external link is drawn along an internal bus (and vice versa). See `02_VISUAL_LANGUAGE §2.1`. |
+| **Why it matters** | Merging two distinct connections into one line makes the learner infer a shared conduit that does not exist (e.g. data appearing to flow GPU→CPU→RAM→NIC because an incoming network cable was drawn along the internal system bus). This is a structural lie, the connective tissue of `§2` Structural Isomorphism, and it is invisible to a narrative review — only a topology review catches it. |
+| **Pass criteria** | The connectivity list matches the scene's drawn paths one-to-one for distinct connections; every connector's endpoint sits on a boundary, verified by arithmetic. |
+| **Common failures** | An external network cable extended onto the internal NIC–RAM–CPU–GPU rail; a control line and a data line drawn as one stroke; a cable stub vanishing inside its container instead of at its edge. |
+| **Corrective action** | Return to Authoring Workflow Phase 5; split the merged path into distinct routes and terminate each at the correct boundary. |
+
+---
+
 ## Gate 6 — Narration
 
 **Purpose:** Verify that all narration is natural, mechanistic, and story-driven rather than documentary.
@@ -565,6 +589,18 @@
 | **Pass criteria** | The reviewer signs off on the Freeze Record in the Authoring Workflow Phase 8 format. |
 | **Common failures** | Freezing a Chapter with known issues on the assumption they will be "fixed in the next version." |
 | **Corrective action** | Do not freeze. Return to the relevant phase. A Chapter is frozen only when all issues are resolved. |
+
+---
+
+### 7.5 — Mandatory Viewer-Capability Specs Complied With (or Disclosed)
+
+| | |
+|---|---|
+| **Verify** | The Chapter complies with every frozen normative viewer-capability spec listed in `DESIGN.md §16` — currently `CANVAS_NAVIGATION.md` (pan/zoom/reset, hit-testing under the camera, no per-chapter override). Where the *runtime* is not yet compliant with a spec, the Chapter's self-review **MUST** cite that spec as a disclosed, inherited platform gap (the same honesty class as `01 §4`), and the Chapter **MUST NOT** ship a private workaround. |
+| **Why it matters** | Cross-cutting viewer behaviour that is left implicit drifts chapter-to-chapter (one chapter adds pan, another zoom, another neither), breaking the consistent spatial interaction the platform promises (`02 §10`, `CANVAS_NAVIGATION §10`). A spec that is frozen but never checked at the chapter gate is decoration, not a standard. |
+| **Pass criteria** | For each spec in `DESIGN.md §16`: either the runtime satisfies it (verified), or the gap is explicitly disclosed in the self-review as inherited platform debt; and no chapter-local code redefines navigation bounds, reset, or camera behaviour. |
+| **Common failures** | A chapter implementing its own pan/zoom to "fix" the missing platform capability; a chapter's hit-zone ignoring the user camera; a chapter silently assuming a fixed camera without disclosing the gap. |
+| **Corrective action** | Remove any chapter-private navigation code; add the disclosure to the self-review; if the capability is genuinely needed now, open a platform task to implement it once in the viewer (`CANVAS_NAVIGATION §12`), not per chapter. |
 
 ---
 

@@ -1,12 +1,32 @@
 ---
 schema_version: "1.1"
-project_version: "0.4.0"
+project_version: "0.5.0"
 current_phase: "Journey Production"
 repository_status: "Green"
 constitution_version: "1.3.0"
 governance_version: "1.3.0"
 architecture_version: "1.0.0"
 curriculum_version: "0.0.0"
+
+# ---- RELEASE FREEZE RECORD (Release Freeze Protocol) -------------------------
+release_record:
+  chapter: "chapter-03-across-the-internet"
+  title: "How does data travel from Server to Browser?"
+  release_version: "1.0.0"
+  release_date: "2026-07-23"
+  chapter_status: "FROZEN"
+  production_baseline: "YES"   # reference implementation for future chapters
+  documentation_version: "1.0.4"   # 01–09 frozen + 10/11/12 revisions; 04/05 carry authoritative-source notes
+  architecture_version: "1.0.0"    # DESIGN.md; CANVAS_NAVIGATION v1.1.0 (runtime compliant)
+  viewer_version: "1.1.0"          # Global Canvas Navigation owned by the platform (chapter-agnostic)
+  freeze_prerequisites: "READY-FOR-RELEASE + build PASS + smoke PASS + snapshot/contract PASS + Production-Closure PASS"
+  immutability_rule: "Reopen ONLY for factual error / implementation bug / architecture violation / mandatory platform migration. Feature requests, polish, style, speculative improvements, and convention-only refactors MUST NOT reopen it."
+  baseline_usage: "Future chapters follow Ch-03's ARCHITECTURE (metrics+layout system, connection-identity, continuity contract, platform-inherited navigation), NOT copy its implementation."
+  known_deferred_debt:
+    - "Ch-01 layout: un-audited (no proof table/module) — Compliance debt, non-blocking, deferred"
+    - "Ch-02 layout: proven by 12_ but pre-dates module convention — Compliance debt, non-blocking, deferred"
+    - "State-Predictive Verification runtime (Constitution 01 §4) — Deferred architecture debt, platform-wide"
+    - "node_modules not persisted across sessions — Environmental, not a CESVI defect"
 
 completed_work:
   - "Governance Layer v1.1 Frozen"
@@ -56,12 +76,22 @@ completed_work:
   - "Chapter 03 UI/layout revision v1.0.2 (docs/.../10_): owner's live-app feedback — home cable rerouted to drop OUTSIDE the Browser window; sidebar narrowed (360->300) + narration downsized (clamp 20-27px -> 14-16px); canvas content enlarged (Ch-3-only router-web compression 1900->1740 + cameraPad + chapter-local size bumps); shared renderers untouched -> Ch-01/Ch-02 byte-stable (smoke 59.9s/71.9s)"
   - "Chapter 03 UI/layout revision v1.0.3 (docs/.../11_): incoming cable made a DEDICATED route that loops below the case and plugs into the NIC only (internal bus restored to NIC->GPU, no longer misread as 'through GPU/CPU/RAM'); routers shrunk 124->104 and R1 shifted 940->975 so it clears the Desktop case border"
   - "Chapter 03 layout-system refactor v1.0.4 (docs/.../12_): owner audit 'no hardcoded coords' -> introduced scenes/metrics.ts (named primitives, R01-R19) + scenes/layout.ts (derived interiors/tray/fan/merge/cuts); bbox + home-drop route + R1 now DERIVED; renderers rewritten to consume only named/derived values + measureText pills (R18); inbox tray derived from the NIC so it hugs the NIC by rule; AABB proof table; Layout Debt 0 + no systemic debt; Ch-01/Ch-02 byte-stable"
+  - "Documentation Evolution Protocol run (Ch-03 production): generalized 2 lessons into the system — (a) Layout Derivation Law + measure-first/proof-table made a BINDING gate for every chapter (AUTHORING_WORKFLOW Phase 5 + CHECKLIST Gate 5.6; 02_VISUAL_LANGUAGE §2.2), so Ch-02's Layout Constitution is no longer trapped in Ch-02 history; (b) Connection Identity rule (02 §2.1 + CHECKLIST Gate 5.7) so distinct connections are never merged; DESIGN §14.4 records the metrics+layout module convention. 1 lesson explicitly REJECTED as doc change (node_modules-not-persisted = sandbox env fact, not a CESVI doc gap)"
+  - "META documentation-evolution (recursive application of the protocol to itself): the Documentation Evolution Protocol had NO durable home in the repo (only in session prompts; boot order never referenced it) -> created docs/protocols/DOCUMENTATION_EVOLUTION_PROTOCOL.md v1.0.0 as the canonical versioned home, wired into AI_CHARTER.md boot order + Quality Gates and README_FOR_AI.md; codified two new mandatory mechanisms discovered this session — §4 pre-amendment lookup gate (cite existing rule or confirm absence, to prevent duplicate/conflicting rules) and §8 forward-pointer requirement (every accepted amendment must land a binding pointer on the build path, not only in a chapter/Constitution doc); §12 recursive meta-evolution mandate retained. 1 meta-lesson REJECTED-as-new-doc where existing docs sufficed (none this run beyond the protocol-home fix)"
+  - "Frozen normative viewer-capability spec: docs/architecture/CANVAS_NAVIGATION.md v1.0.0 (RFC-style MUST/SHALL): global pan/zoom/reset viewport model, independent of storyboard, mandatory + identical across all chapters, hit-testing must invert the user camera; current fixed-fit viewer recorded honestly as inherited platform debt (§12, same class as 01 §4). Registered in DESIGN.md §16 (new frozen viewer-capability-specs layer) + CHECKLIST Gate 7.5 (compliance-or-disclosure gate)"
+  - "COMPLIANCE AUDIT for CANVAS_NAVIGATION v1.0.0 (Globalization/Compliance protocol): existing chapters 01/02/03 do NOT implement pan/zoom/reset and the viewer camera is a fixed auto-fit -> recorded as INHERITED PLATFORM DEBT (not silent): per-chapter disclosure mandated by Workflow Phase 7 (new bullet) + Gate 7.5; closure is a single viewer task (CANVAS_NAVIGATION §12), explicitly NOT per chapter. System-absorption gap closed: Workflow Phase 7 now names DESIGN.md §16 on the authoring path (previously the contract was reachable only at the review gate). Future-chapter validation (Ch-73): an author reading only the docs now hits §16 (boot+DESIGN), the Phase-7 bullet (authoring), and Gate 7.5 (review) -> would neither override navigation nor hide the gap"
+  - "COMPLIANCE AUDIT for Gate 5.6 (layout system / no un-audited literals) — triggered by the Amendment Impact Analysis (§14) of making 5.6 binding: evidence-based, NOT assumed. Ch-01 = UN-AUDITED-LAYOUT DEBT (no metrics/layout module, no proof table, no layout doc at all). Ch-02 = REPRESENTATION DEBT only (its 12_LAYOUT_REVIEW.md IS an AABB proof table over named scene rects, so its literals are *proven*; it merely pre-dates the v1.0.4 metrics/layout *module* convention). Ch-03 = COMPLIANT post-refactor. Recorded honestly with the audited-vs-un-audited distinction. Impact analysis (§14): affects future chapters YES (on authoring path via Phase 5/7 + gate); invalidates existing chapters NO (geometry stable, Ch-02 proven, no teaching harm); immediate refactor NO (no correctness/teaching risk); migration DEFERRED opportunistically per chapter (debt recorded, refactor not forced); debt-recording NOT deferred. No frozen content rewritten."
+  - "Protocol self-amendment: DOCUMENTATION_EVOLUTION_PROTOCOL.md v1.0.0 -> added §14 Amendment Impact Analysis (MANDATORY for every accepted amendment: affects-future / invalidates-existing / immediate-refactor / compliance-debt / deferrable, each justified) + wired into §6 acceptance test + §13 report template; §14 renumbered old §14->§15. This codifies the owner's standing instruction as a durable process gate (Standardization-First: the instruction arrived via prompt, now lives in the repo). Applied retroactively this turn to the Gate 5.6/5.7 + Layout-Derivation + Connection-Identity + nav-compliance amendments (see the two COMPLIANCE AUDIT entries above)."
+  - "ARCHITECTURE MIGRATION PASS — Global Canvas Navigation (CANVAS_NAVIGATION v1.0.0 -> v1.1.0): migrated the viewer so the frozen pan/zoom/reset contract is PLATFORM INFRASTRUCTURE, owned once (engine Camera + NAV bounds; update.ts recomposes T_user∘T_fit per frame + resets on scene change; composer consumes the composed transform; orchestrator unified pointer model [drag-empty=pan, click-on-zone=chapter interaction] + cursor-anchored wheel zoom + dblclick/button reset + toWorld inverting the composed transform — also fixes a latent hit-test bug that used scenes[0].bbox for every scene). Strategy=IMMEDIATE viewer migration, STAGED as a non-breaking superset (default camera == old auto-fit, so all snapshots byte-identical). Chapter compliance matrix: Ch-01/02/03 = COMPLIANT THROUGH VIEWER MIGRATION, zero chapter navigation code, no refactor required (proven: no chapter references pan/zoom/camera). Debt: the nav compliance gap is CLOSED; remaining unrelated debt unchanged (Ch-01 un-audited layout; State-Predictive Verification). smoke navCheck now machine-verifies §2/§7/§9 for every chapter. Spec §12 flipped NON-COMPLIANT->COMPLIANT (history retained). Docs: CANVAS_NAVIGATION §12 + version; this ledger. No new global rule needed (the contract already existed; this is implementation conforming to it)."
+  - "MIGRATION RE-AUDIT (deterministic, code-verified): re-ran the 'exists exactly once' audit. grep proves chapters contain NO navigation logic — the only camera-related token in src/content is cameraPad, the per-scene DATA input to the platform fit (permitted by §9.1), NOT pan/zoom code. Platform ownership confirmed in exactly 5 layers (engine/state, engine/update, orchestrator, composer, viewer); composer no longer recomputes fit; hit-test inverts the composed transform (no scenes[0]). Documentation gap found + closed: the spec stated composition (§9) but not the SINGLE-SOURCE-OF-TRANSFORM invariant whose absence caused the pre-migration hit-test bug -> added CANVAS_NAVIGATION §9.1 (binding; machine-checked by navCheck). All other migration patterns (per-frame base-fit recompute, scene-change reset) rejected as new docs = already covered by §8/§9 or pure implementation detail (Anti-Bloat). Compliance matrix unchanged: all chapters COMPLIANT THROUGH PLATFORM MIGRATION, no refactor."
   - "Former chapter-03-click-to-action retired (docs/.../chapter-03-click-to-action/RETIRED.md); its broken code stub (missing thumbnail import) removed -> green build restored"
   - "scripts/smoke-chapters.ts authored this round + esbuild recorded in devDependencies (the documented npm run smoke tooling, previously referenced but absent, now functional: integrity + playthroughs + 14 deterministic QA frames)"
 
 documents_in_progress: []
 frozen_documents:
   - "/docs/governance/WORKFLOW.md"
+  - "/docs/protocols/DOCUMENTATION_EVOLUTION_PROTOCOL.md (v1.0.0 — canonical home of the self-improvement protocol; wired into AI_CHARTER boot order + quality gates)"
+  - "/docs/architecture/CANVAS_NAVIGATION.md (v1.0.0 — frozen normative viewer pan/zoom/reset spec; registered in DESIGN.md §16 + CHECKLIST Gate 7.5)"
   - "/docs/constitution/00_VISION.md"
   - "/docs/constitution/01_EDUCATIONAL_PHILOSOPHY.md"
   - "/docs/constitution/02_VISUAL_LANGUAGE.md"

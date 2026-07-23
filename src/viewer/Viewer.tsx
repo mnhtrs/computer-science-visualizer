@@ -10,7 +10,7 @@ import { getChapter } from '../chapter-loader/registry'
 import { useViewerEngine } from '../orchestrator/useViewerEngine'
 import SocialButtons from '../components/SocialButtons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronLeft, faChevronRight, faPause, faPlay, faRotateLeft } from '@fortawesome/free-solid-svg-icons'
+import { faChevronLeft, faChevronRight, faPause, faPlay, faRotateLeft, faExpand } from '@fortawesome/free-solid-svg-icons'
 
 const EMPTY_TEXT = { en: '', vi: '' } as const
 
@@ -51,13 +51,20 @@ function ViewerCore({ chapter, controlsLeft }: { chapter: Chapter; controlsLeft?
     groups, insideGroup, insideActive, insideStepTotal, insideStepNow,
     nav, canEdit, deepScene, totalSteps, homeScene, ui, runI, prog, beatsLength,
     start, togglePause, jumpTo, stepPrev, stepNext, exitDeep, currentStep, jumpToStep,
-    onClick, onMouseMove, setLang, onIntroAnimEnd,
+    resetView, cameraActive, onPointerDown, onPointerMove, onPointerUp,
+    setLang, onIntroAnimEnd,
   } = engine
 
   return (
     <div className="app">
       <div className="stage" ref={stageRef}>
-        <canvas ref={canvasRef} className={`canvas${introKey > 0 ? ' shake' : ''}`} onClick={onClick} onMouseMove={onMouseMove} />
+        <canvas
+          ref={canvasRef}
+          className={`canvas${introKey > 0 ? ' shake' : ''}`}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+        />
         {introKey > 0 && insideActive && (
           <div key={introKey} className="insideIntro" onAnimationEnd={onIntroAnimEnd}>
             {(ui.sceneTag ?? ui.insideCpuTag ?? EMPTY_TEXT)[lang]}
@@ -116,6 +123,11 @@ function ViewerCore({ chapter, controlsLeft }: { chapter: Chapter; controlsLeft?
       <div className="controls">
         <div className="ctl-left" />
         <div className="ctl-center">
+        {cameraActive && (
+          <button className="btn icon" onClick={resetView} title={lang === 'vi' ? 'Đặt lại khung hình' : 'Reset view'}>
+            <FontAwesomeIcon icon={faExpand} />
+          </button>
+        )}
         {phase === 'waiting' ? (
           <div className="ctl-social"><SocialButtons /></div>
         ) : (
