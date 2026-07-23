@@ -139,14 +139,7 @@ If any gate fails, the proposal is incomplete.
 ---
 
 ## Change Policy
-Do not directly modify the Constitution, Governance, or this Charter unless explicitly instructed. Prepare a formal proposal through the Amendment process defined in `docs/governance/AMENDMENT.md`.
+Do not directly modify the Constitution, Governance, or this Charter unless explicitly instructed. Prepare a formal proposal through the Amendment process defined in `docs/governance/WORKFLOW.md §2`.
 
 ## Boot Order
-Every AI agent must read documents in this exact order before acting:
-1. `docs/protocols/AI_CHARTER.md` (this file)
-2. `docs/protocols/DOCUMENTATION_EVOLUTION_PROTOCOL.md` (how CESVI learns from production; run after every task — see §1 of that file)
-3. `docs/constitution/00_VISION.md`
-4. `docs/constitution/01_EDUCATIONAL_PHILOSOPHY.md`
-5. `docs/architecture/DESIGN.md`
-6. `docs/state/PROJECT_STATE.md`
-7. Proceed only after reading the above.
+The canonical boot sequence is defined in `docs/README_FOR_AI.md`. Every AI agent entering this repository must follow that document's reading order exactly. `README_FOR_AI.md` is the single source of truth for session initialisation; this Charter governs *how you behave* after booting, not *what you read* during boot.

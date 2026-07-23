@@ -37,7 +37,7 @@
 | | |
 |---|---|
 | **Verify** | The Chapter has exactly one central educational question, declared before any design work began. |
-| **Why it matters** | A Journey without a single question becomes a survey. The learner has no frame for what they are trying to understand. If a concept starts answering another question, it belongs in another chapter. Never expand a chapter simply because more technical knowledge exists. Technical completeness must never override educational clarity. See: `03_NARRATIVE_FRAMING §17`. |
+| **Why it matters** | A Journey without a single question becomes a survey. The learner has no frame for what they are trying to understand. If a concept starts answering another question, it belongs in another chapter. Never expand a chapter simply because more technical knowledge exists. Technical completeness must never override educational clarity. See: `03_NARRATIVE_FRAMING §13`. |
 | **Pass criteria** | The question is written down. It is singular. A complete beginner can understand it before watching the Journey. The final scene visibly answers it. Teach only what is required for the learner's current understanding. The success of a chapter is evaluated by learner understanding and retention, not by technical coverage. |
 | **Common failures** | Two questions merged into one. A question so broad it cannot be answered in one Journey. Expanding the chapter with unnecessary concepts because of technical completeness. |
 | **Corrective action** | Return to Authoring Workflow Phase 1. |
@@ -229,7 +229,7 @@
 | | |
 |---|---|
 | **Verify** | The Journey reads as a single, unbroken narrative from first scene to last, and integrates seamlessly with adjacent chapters on the pathway. |
-| **Why it matters** | Independent scenes produce the "slide deck" effect, where the learner reads but does not travel. This violates `03_NARRATIVE_FRAMING §19`. Furthermore, chapters should never feel like standalone technical lessons; the learner must always feel they are continuing one continuous journey where the ending of one chapter naturally becomes the beginning of the next, making transitions between chapters feel inevitable rather than artificial. |
+| **Why it matters** | Independent scenes produce the "slide deck" effect, where the learner reads but does not travel. This violates `03_NARRATIVE_FRAMING §14`. Furthermore, chapters should never feel like standalone technical lessons; the learner must always feel they are continuing one continuous journey where the ending of one chapter naturally becomes the beginning of the next, making transitions between chapters feel inevitable rather than artificial. |
 | **Pass criteria** | Remove all narration. The animation alone should tell a coherent story. A learner watching without sound should be able to follow the protagonist's journey. The entry state connects directly to the exit state of the prior chapter. Story progression must be driven by learner curiosity rather than by a list of technologies. |
 | **Common failures** | Scenes that could be reordered without breaking the narrative. Scenes that begin with a title card rather than with the protagonist arriving. A chapter starting state that has no continuity or narrative connection to the prior chapter's final state. |
 | **Corrective action** | Return to Authoring Workflow Phase 4. |
@@ -270,6 +270,7 @@
 
 | | |
 |---|---|
+| **Canonical rule** | Defined in `03_NARRATIVE_FRAMING.md §3`. This gate verifies compliance. |
 | **Verify** | The learner observes every phenomenon before receiving an explanation of it. |
 | **Why it matters** | Explanation without prior observation replaces learning with memorization. See: `03_NARRATIVE_FRAMING §3`. |
 | **Pass criteria** | For every narration line that explains a mechanism, the mechanism has been visibly animated in the current or immediately preceding beat. |
@@ -282,6 +283,7 @@
 
 | | |
 |---|---|
+| **Canonical rule** | Defined in `03_NARRATIVE_FRAMING.md §4`. This gate verifies compliance. |
 | **Verify** | Every explanation answers a question that has been established prior to the explanation. |
 | **Why it matters** | Information without a preceding question is noise. The learner has no frame for receiving it. See: `03_NARRATIVE_FRAMING §4`. |
 | **Pass criteria** | For every explanation in the narration, the reviewer can identify the moment — earlier in the Journey — at which the learner would have naturally asked the question being answered. |
@@ -306,6 +308,7 @@
 
 | | |
 |---|---|
+| **Canonical rule** | Defined in `03_NARRATIVE_FRAMING.md §13` (Knowledge Reveal Law) and operationalized as the PST Sequence in `AUTHORING_WORKFLOW.md Phase 6`. This gate verifies compliance. |
 | **Verify** | Every technical term is introduced only after the learner has experienced the phenomenon that makes the term necessary. |
 | **Why it matters** | A term without a prior experience is a label without a referent. It is memorized, not understood. The script must strictly follow the progression: **Question → Problem → Need → Solution → Terminology**. Never reverse this order or introduce terminology simply because it exists. The learner must understand why something is needed before learning what it is called. See: `03_NARRATIVE_FRAMING §13`. |
 | **Pass criteria** | For every technical term introduced in the Journey, the reviewer can point to a specific moment — earlier in the same scene or in a prior scene — where the learner observed the phenomenon the term describes. |
@@ -474,6 +477,7 @@
 
 | | |
 |---|---|
+| **Canonical rule** | Defined in `03_NARRATIVE_FRAMING.md §14` (Narrative-Driven Explanation). Prohibited phrase list extended by `AUTHORING_WORKFLOW.md Phase 6`. This gate verifies compliance. |
 | **Verify** | No narration section reads as a definition, specification, or formal description of a component. |
 | **Why it matters** | Documentation tone is the primary symptom of narration that was written independently of the observable story. See: `03_NARRATIVE_FRAMING §14`. |
 | **Pass criteria** | No narration line begins with or contains patterns such as: "X is a component that...", "X is responsible for...", "X performs the function of...", "The role of X is...". |

@@ -8,6 +8,19 @@ governance_version: "1.3.0"
 architecture_version: "1.0.0"
 curriculum_version: "0.0.0"
 
+# ---- AGENT SUMMARY (Arena.ai Quick Context) ----------------------------------
+agent_context:
+  phase: "Journey Production"
+  next_action: "Chapter 04 production — run 5-stage Cognitive Architecture first, then 9-phase Authoring Workflow"
+  baseline_reference: "Chapter 03 (chapter-03-across-the-internet) is the production architecture baseline"
+  active_deferred_debt:
+    - "Ch-01 layout: un-audited (no proof table/module) — compliance debt, non-blocking"
+    - "State-Predictive Verification runtime (01_PHILOSOPHY §4) — platform-wide deferred architecture debt"
+  forbidden:
+    - "Redesign Chapter 03 without new owner directive"
+    - "Modify frozen artifacts outside Amendment Process (docs/governance/WORKFLOW.md §2)"
+    - "Reopen Chapter 02 frozen design"
+
 # ---- RELEASE FREEZE RECORD (Release Freeze Protocol) -------------------------
 release_record:
   chapter: "chapter-03-across-the-internet"

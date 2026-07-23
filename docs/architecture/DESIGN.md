@@ -385,8 +385,8 @@ ChapterMeta {
 
 ### 7.3 What "adding a chapter" looks like
 
-1. Create `content/chapter-05/`.
-2. Add `meta.ts` (and `story.ts` if available).
+1. Create `content/chapter-NN-[slug]/`.
+2. Add `meta.ts` (required for auto-discovery) and the remaining production modules. See `§16` for the full authoritative file manifest derived from the Chapter 03 reference implementation.
 3. Done. The registry picks it up via glob; Home renders the new card; the
    Viewer can open it. **No edit to any file outside `content/`.**
 
@@ -754,7 +754,42 @@ left as-is; Home has its own toggle. Phase 5 unifies them.
 
 ---
 
-## 15. Phase 2 — Implemented (auto-discovery + content architecture)
+## 16. Blueprint-to-Chapter Handoff Note
+
+The 5-Stage Cognitive Architecture (`docs/protocols/cesvi_cognitive_architecture.md`, also summarized in `docs/README_FOR_AI.md §Process Architecture Note`) produces an authoring artifact named `journey_blueprint.json` at Stage 5.
+
+*   **Authoring Handoff**: `journey_blueprint.json` is a design-time artifact used during review gates (Authoring Workflow Phases 7–8).
+*   **Runtime Implementation**: The viewer engine does **not** ingest `journey_blueprint.json` directly at runtime. Instead, chapter authors implement TypeScript modules under `src/content/chapter-NN-[slug]/`, registering the chapter via `meta.ts` (`loadStory()`).
+
+### Required File Manifest (derived from Chapter 03 reference implementation)
+
+Every production chapter must contain the following files. `meta.ts` is the minimum required for registry auto-discovery. All others are required for a complete, freezable chapter.
+
+```
+src/content/chapter-NN-[slug]/
+├── meta.ts          ← ChapterMeta: id, slug, order, title, subtitle, accent, thumbnail, loadStory()
+├── index.ts         ← Barrel: imports meta + assembleChapter(meta) and exports the Chapter object
+├── assemble.ts      ← assembleChapter(meta): builds SceneDescription[], HitZone[], timeline.beats
+├── types.ts         ← Chapter-local PartSpec and any chapter-specific type extensions
+├── renderers.ts     ← Chapter-specific draw functions keyed by EntityDescription.kind (lowercase-kebab)
+├── scenes/
+│   ├── metrics.ts   ← Named layout primitives: spacing scale, type scale (F), box specs. Zero literals.
+│   ├── layout.ts    ← Derived geometry: container interiors, routes, clearances from metrics.ts values
+│   ├── seam.ts      ← Cross-scene shared positions (protagonist handoff coordinates between scenes)
+│   └── NN-[name].ts ← One file per scene: exports PartSpec[], PATH, BBOX, INFRASTRUCTURE
+└── narration/
+    ├── beats.ts     ← BeatDescription[]: timeline beat array (id, line, duration, travel, scene cues)
+    └── labels.ts    ← Localized UI string constants (chapter title, button labels, scene tags)
+```
+
+**Naming rules:**
+- Folder: `chapter-NN-[slug]` where NN is zero-padded chapter number and slug is kebab-case title summary.
+- Scene files: `NN-[name].ts` matching their narrative-act order.
+- `EntityDescription.kind`: lowercase-kebab-case only (see §17 for enforcement rule).
+
+---
+
+## 17. Phase 2 — Implemented (auto-discovery + content architecture)
 
 > Phase 2 is complete. The architecture is re-frozen at this point. Phase 3
 > (rendering extraction) has NOT been started.
@@ -766,7 +801,7 @@ left as-is; Home has its own toggle. Phase 5 unifies them.
 - **Generic Chapter contract**: `chapter-loader/types.ts` defines `Chapter`
   (meta + declarative `scenes: SceneDescription[]`). Chapters describe scenes,
   entities, narration — they never call the canvas. `EntityDescription.kind` is
-  the key the future rendering layer will map to a draw routine.
+  the key the future rendering layer will map to a draw routine. **Naming convention: `kind` values must be lowercase-kebab-case strings** (e.g. `'cpu-chip'`, `'nic'`, `'router'`, `'service-box'`). PascalCase or snake_case keys will not match renderer registry entries and will fail silently.
 - **Chapter 1 modularised**: split into 7 narrative-act scene files
   (`scenes/01-desktop.ts` … `07-result.ts`), 4 narration files, a `types.ts`,
   `meta.ts`, `manifest.ts`, and an `index.ts` barrel.
